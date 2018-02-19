@@ -1,0 +1,42 @@
+name: Bootstrap lite
+type: theme
+description: Built to use Bootstrap, a sleek, intuitive, and powerful front-end framework for faster and easier web development.
+# core: 8.x
+libraries:
+  - bootstrap_lite/global-styling
+  - bootstrap_lite/bootstrap
+  - bootstrap_lite/fontawesome
+  - bootstrap_lite/messages
+  - bootstrap_lite/navbar
+  - bootstrap_lite/form
+
+libraries-override:
+  core/drupal.vertical-tabs:
+    css:
+      component:
+        misc/vertical-tabs.css: false
+        
+libraries-extend:
+  core/drupal.vertical-tabs:
+    - bootstrap_lite/vertical-tabs
+    
+regions:
+  navbarmenu: 'Navbar Menu'
+  navbarbrand: 'Navbar Brand'
+  header: 'Top Bar'
+  highlighted: 'Highlighted'
+  help: 'Help'
+  content: 'Content'
+  sidebar_first: 'Primary'
+  sidebar_second: 'Secondary'
+  footer: 'Footer'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+
+
+
+# Information added by Drupal.org packaging script on 2015-11-05
+version: '8.x-1.0-beta1'
+core: '8.x'
+project: 'bootstrap_lite'
+datestamp: 1446690542
