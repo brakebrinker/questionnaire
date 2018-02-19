@@ -44,3 +44,62 @@
 section.form-item > .webform-section-wrapper > .description {
     margin-bottom: 20px;
 }
+.navbar-btn {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+a {
+    color: #22ae65;
+    text-decoration: none;
+}
+.table-striped thead tr {
+    background-color: #21ae65;
+}
+
+.table-striped thead tr th {
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #fff;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #fff;
+}
+.table-striped tbody tr:first-child {
+    background-color: #ffeeba;
+}
+.table > tbody > tr > td {
+    padding: 4px;
+    vertical-align: middle;
+    font-size: 13px;
+}
+.table > tbody > tr > td:first-child {
+    padding-left: 8px;
+}
+.table > tbody > tr.self-questionnaire-control > td:nth-child(1),
+.table > tbody > tr.self-questionnaire-control > td:nth-child(2),
+.table > tbody > tr.self-questionnaire-control > td:nth-child(3) {
+    width: 32px;
+}
+.table-striped caption {
+    padding-top: 2px;
+}
+.form-item-name input {
+    width: 300px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+.form-inline .form-item-created .form-control,
+.form-inline .form-item-created-1 .form-control {
+    display: inline-block;
+    width: 150px;
+    vertical-align: middle;
+}
+.form-submit.btn-default {
+    background-color: #ffba38;
+}
+.form-submit.btn-default:hover {
+    background-color: #ffc24f;
+}
+.form-item-action .select-wrapper {
+    width: 190px;
+}
