@@ -84,12 +84,14 @@ a {
     padding-top: 2px;
 }
 .form-item-name input {
-    width: 300px;
+    /* width: 300px; */
     margin-bottom: 20px;
     margin-right: 20px;
 }
 .form-inline .form-item-created .form-control,
-.form-inline .form-item-created-1 .form-control {
+.form-inline .form-item-created-1 .form-control,
+.form-inline .form-item-created-team-1 .form-control,
+.form-inline .form-item-created-team .form-control {
     display: inline-block;
     width: 150px;
     vertical-align: middle;
@@ -102,4 +104,103 @@ a {
 }
 .form-item-action .select-wrapper {
     width: 190px;
+}
+.quicktabs-block-title {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+ul.quicktabs-tabs {
+    padding: 0;
+}
+ul.quicktabs-tabs li {
+    display: inline-block;
+    background-color: #eaeaea;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+ul.quicktabs-tabs li:hover {
+    background-color: #e2e2e2;
+}
+ul.quicktabs-tabs li a {
+    padding: 8px 15px;
+    display: block;
+    text-decoration: none;
+}
+ul.quicktabs-tabs li.active a {
+    color: #fff;
+    cursor: default;
+}
+ul.quicktabs-tabs li.active {
+    background-color: #22ae65;
+}
+.table > tbody > tr > td .control-label,
+.views-field-webform-submission-bulk-form {
+	font-size: 18px;
+	position: relative;
+}
+.control-label input,
+.views-field-webform-submission-bulk-form input {
+	position: absolute;
+}
+.views-field-webform-submission-bulk-form input {
+    top: 0;
+    font-size: 18px;
+    position: relative;
+}
+.control-label input:after,
+.views-field-webform-submission-bulk-form input:after {
+    content: "";
+    position: absolute;
+	top: -2px;
+	left: 0;
+	width: 20px;
+	height: 20px;
+    background-color: #fff;
+    border: 1px solid #d6d6d6;
+    border-radius: 3px;
+}
+.control-label input:after:hover,
+.views-field-webform-submission-bulk-form input:after:hover {
+    border-color: #b5b5b5;
+}
+.views-field-webform-submission-bulk-form input:checked:after,
+.control-label input:checked:after {
+    content: "✔";
+    position: absolute;
+    text-align: center;
+    color: #21ae65;
+}
+.views-field-webform-submission-bulk-form input:disabled:after,
+.control-label input:disabled:after {
+    content: "";
+    background-color: #e4e4e4;
+}
+
+
+@media screen and (max-width:767px) {
+    ul.quicktabs-tabs li {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 3px;
+    }
+    .bef-exposed-form .form-item-name {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .bef-exposed-form .form--inline > .form-item {
+        float: left;
+        width: 100%;
+    }
+    .form-inline .form-item-created .form-control, .form-inline .form-item-created-1 .form-control {
+        width: 100%;
+    }
+    .table > tbody > tr > td {
+        padding: 6px;
+        font-size: 15px;
+    }
+    .quicktabs-block-title {
+        font-size: 26px;
+        line-height: 30px;
+        margin-bottom: 10px;
+    }
 }
