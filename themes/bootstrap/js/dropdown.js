@@ -2,7 +2,6 @@
  * @file
  * Provides an event handler for hidden elements in dropdown menus.
  */
-
 (function ($, Drupal, Bootstrap) {
   'use strict';
 
