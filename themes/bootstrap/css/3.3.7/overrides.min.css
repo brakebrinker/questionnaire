@@ -64,6 +64,9 @@ a {
 .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: #fff;
 }
+.table-striped > tbody > tr:nth-of-type(odd):hover {
+    background-color: #f5f5f5;
+}
 .table-striped tbody tr:first-child {
     background-color: #ffeeba;
 }
