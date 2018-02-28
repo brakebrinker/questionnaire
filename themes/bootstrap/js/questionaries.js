@@ -93,14 +93,20 @@
     
                     switch (resultQuestionareKey){
                         case 'sid': break;
+                        case 'team_sid': break;
                         case 'teamlead_id': break;
                         case 'created_sec': break;
                         case 'author_id': break;
+                        case 'team_author_id': break;
+                        case 'team_created_sec': break;
+                        case 'team_employee_id': break;
+                        case 'team_locked': break;
                         default:  resultTableCell.innerHTML = resultQuestionaries[resultQuestionareKey];
                         questionnarTableRow.insertBefore(resultTableCell,null);
                     }
                 }
             }
+            console.log('resultQuestionaries After create table');
             console.log(resultQuestionaries);
         }
 
@@ -135,22 +141,16 @@
         for (var employeeQuestionareKey in employeeQuestionaries) {
             var timeDifference = Math.abs(employeeQuestionaries[employeeQuestionareKey].created_sec - teamleadDateCreated);
 
-            console.log('excludedSidQuestionaries after');
-            console.log(excludedSidQuestionaries);
-            
-            
-
             if (teamEmployeeId === employeeQuestionaries[employeeQuestionareKey].author_id && timeDifference <= timeQuestionarePeriod) {
                 
                 // && !~excludedSidQuestionaries.indexOf(teamleadSid)
                 return employeeQuestionaries[employeeQuestionareKey];
-                break;
+                // break;
+            } else {
+                // console.log(teamleadQuestionaries[teamleadQuestionareKey]);
+                return {};
+                // break;
             }
-        //     } else {
-        //         // console.log(teamleadQuestionaries[teamleadQuestionareKey]);
-        //         return {};
-        //         // break;
-        //     }
         }
 
     }
@@ -186,20 +186,16 @@
 
         } else if (formType === 'anketa_ocenki') {
             for (var teamleadQuestionareKey in teamleadQuestionaries) {
-                if (teamleadQuestionaries[teamleadQuestionareKey].team_sid === questionnareId) {
-                    var employeeSearched = searchEmployeeQuestionnare(teamleadQuestionaries[teamleadQuestionareKey].team_employee_id, teamleadQuestionaries[teamleadQuestionareKey].team_created_sec);
+                var issetTeamleadSid = ~excludedSidQuestionaries.indexOf(teamleadQuestionaries[teamleadQuestionareKey].team_sid);
+
+                if (teamleadQuestionaries[teamleadQuestionareKey].team_sid === questionnareId && !issetTeamleadSid) {
+                    // var employeeSearched = searchEmployeeQuestionnare(teamleadQuestionaries[teamleadQuestionareKey].team_employee_id, teamleadQuestionaries[teamleadQuestionareKey].team_created_sec, teamleadQuestionaries[teamleadQuestionareKey].team_sid);
+
+                    resultQuestionaries = createEmptyEmployeeFields(resultQuestionaries);
 
                     for (var teamleadFieldKey in teamleadQuestionaries[teamleadQuestionareKey]) {
                         resultQuestionaries[teamleadFieldKey] = teamleadQuestionaries[teamleadQuestionareKey][teamleadFieldKey];
                     }
-
-                    // if (Object.keys(employeeSearched).length > 0) {
-                        for (var employeeSearchedKey in employeeSearched) {
-                            resultQuestionaries[employeeSearchedKey] = employeeSearched[employeeSearchedKey];
-                        } 
-                    // } else {
-                    //     resultQuestionaries = createEmptyEmployeeFields(resultQuestionaries);
-                    // }
 
                     console.log('result ank_ocenki: ');
                     console.log(resultQuestionaries);
@@ -231,7 +227,7 @@
         // console.log('Object.keys(readyTable).length: ' + Object.keys(readyTable).length);
         // console.log('Object.keys(workTabContainer).length: ' + Object.keys(workTabContainer).length);
             if (Object.keys(workTabContainer).length > 0 && createdTable !== undefined) {
-                workTabContainer.appendChild(readyTable);
+                workTabContainer.appendChild(createdTable);
             } else {
                 alert('Class name: manage-questionnairies not found.');
             }
@@ -307,44 +303,10 @@
                     try {
                         checkObjectsFromRequests(responseText, requestUrl);
                     } catch(e) {
-                        alert(e);
                         sendAjaxRequest(requestUrl);
+                        alert(e);
                     }
                 }
-
-                // if (~requestTargetUrl.indexOf(requestUrls[0])) {
-                //     employeeResponseText = xhr.responseText;
-                //     if(employeeResponseText) {
-                //         try {
-                //             employeeQuestionaries = JSON.parse(employeeResponseText);
-                //             checkObjectsFromRequests(employeeResponseText);
-                //         } catch(e) {
-                //             alert(e);
-                //         }
-                //     }
-                // }
-
-                // if (~requestTargetUrl.indexOf(requestUrls[1])) {
-                //     teamleadResponseText = xhr.responseText;
-                //     if(teamleadResponseText) {
-                //         try {
-                //             teamleadQuestionaries = JSON.parse(teamleadResponseText);
-                //         } catch(e) {
-                //             alert(e);
-                //         }
-                //     }
-                // }
-
-                // if (~requestTargetUrl.indexOf(requestUrls[2])) {
-                //     allResponseText = xhr.responseText;
-                //     if(allResponseText) {
-                //         try {
-                //             allQuestionaries = JSON.parse(allResponseText);
-                //         } catch(e) {
-                //             alert(e);
-                //         }
-                //     }
-                // }
             }
         }
     
