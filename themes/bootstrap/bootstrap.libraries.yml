@@ -13,12 +13,12 @@ drupal.bootstrap:
     - core/drupal
     - core/drupalSettings
 
-questionaries:
-  js:
-    js/questionaries.js: {}
-  dependencies:
-    - core/jquery
-    - core/underscore
+# questionaries:
+#   js:
+#     js/questionaries.js: {}
+#   dependencies:
+#     - core/jquery
+#     - core/underscore
 
 # Create a library placeholder for livereload.
 # This is altered dynamically based on the set URL.
@@ -33,7 +33,7 @@ theme:
   dependencies:
     - bootstrap/drupal.bootstrap
     - bootstrap/attributes
-    - bootstrap/questionaries
+    # - bootstrap/questionaries
 
 theme-settings:
   js:
