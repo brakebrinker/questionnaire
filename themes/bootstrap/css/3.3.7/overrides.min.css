@@ -178,7 +178,9 @@ ul.quicktabs-tabs li.active {
     content: "";
     background-color: #e4e4e4;
 }
-
+.not-filling {
+    color: #ce0808;
+}
 
 @media screen and (max-width:767px) {
     ul.quicktabs-tabs li {

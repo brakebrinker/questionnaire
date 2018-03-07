@@ -3,34 +3,69 @@ use Drupal\Core\Form\FormStateInterface;
 // use Drupal\user\Entity\User;
 
 
-
+// hook for submition webform anketa_k_dkr
 function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // kint($form_id);
-  // if ($form_id == 'webform_submission_filter_form') {
-  //   // kint($form_state);
-  //     $form['actions']['submit']['#validate'][] = 'questionnaire_hooks_form_validate';
-  // }
-      // if ($form_id == 'webform_submission_filter_form') {
-        // $form['actions']['#submit'][] = 'questionnaire_hooks_form_validate';
-      // }
-      if ($form_id == 'webform_submission_anketa_k_dkr_add_form') {
-        foreach (array_keys($form['actions']) as $action) {
-          if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-            $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_validate';
-            drupal_set_message($form_id);
-          }
-        }
+  if ($form_id == 'webform_submission_anketa_k_dkr_add_form') {
+    foreach (array_keys($form['actions']) as $action) {
+      if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+        $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_validate';
       }
+    }
+    // $form['#validate'][] = 'questionnaire_hooks_form_validate';
+  }
 }
 
+// filling fields id_timlida and id_sotrudnika on submition webform
 function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_state) {
   $user_roles = \Drupal::currentUser()->getRoles();
-  drupal_set_message('user roles is: ' . print_r($user_roles));
+  $user_id = \Drupal::currentUser()->id();
+  $user_name = \Drupal::currentUser()->getUsername();
+  $user_email = \Drupal::currentUser()->getEmail();
+  
+  if (in_array("team_lider", $user_roles)) {
+    $filling_field_id_timlida = $form_state->getValue('id_timlida');
+    $filling_field_name_timlida = $form_state->getValue('name_timlida');
+    $filling_field_email_timlida = $form_state->getValue('email_timlida');
+    $filling_field_email_sotrudnika_from_teamlead = $form_state->getValue('email_sotrudnika');
+    $filling_field_entity_sotrudnika = $form_state->getValue('team_entity_sotrudnik');
 
-  $form_state->setValue('id_timlida', '19');
-  \Drupal::logger(' id_timlida')->notice('id_timlida 19 submit ');
+    $user_from_uid = user_load($filling_field_entity_sotrudnika);
+    $email_sotrudnika_from_field = $user_from_uid->getEmail();
 
-  // $values = ['team_id_timlida' => '19'];
-  // $form_state->setValues($values);
+    if (!$filling_field_id_timlida) {
+      $form_state->setValue('id_timlida', $user_id);
+    }
+
+    if (!$filling_field_name_timlida) {
+      $form_state->setValue('name_timlida', $user_name);
+    }
+
+    if (!$filling_field_email_timlida) {
+      $form_state->setValue('email_timlida', $user_email);
+    }
+
+    if (!$filling_field_email_sotrudnika_from_teamlead) {
+      $form_state->setValue('email_sotrudnika', $email_sotrudnika_from_field);
+    }
+  }
+
+  if (in_array("employee", $user_roles)) {
+    $filling_field_id_sotrudnika = $form_state->getValue('id_sotrudnika');
+    $filling_field_name_sotrudnika = $form_state->getValue('name_sotrudnika');
+    $filling_field_email_sotrudnika = $form_state->getValue('email_sotrudnika');
+
+    if (!$filling_field_id_sotrudnika) {
+      $form_state->setValue('id_sotrudnika', $user_id);
+    }
+
+    if (!$filling_field_name_sotrudnika) {
+      $form_state->setValue('name_sotrudnika', $user_name);
+    }
+
+    if (!$filling_field_email_sotrudnika) {
+      $form_state->setValue('email_sotrudnika', $user_email);
+    }
+
+  }
+  // \Drupal::logger(' id_timlida')->notice('id_timlida 19 submit ');
 }
-
