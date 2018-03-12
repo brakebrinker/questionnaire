@@ -1,0 +1,46 @@
+<p>Test twig template!</p>
+ 
+<p>test_var: {{ test_var }}</p>
+
+{#{% if submission is not empty %}#}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Дата создания</th>
+            <th>Дата изменения</th>
+            <th>Тимлид</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>
+                    {{ submission['sid'] }}
+                </td>
+                <td>
+                    {{ submission['locked'] }}
+                </td>
+                <td>
+                    view
+                </td>
+                <td>
+                    edit
+                </td>
+                <td>
+                    {{ submission['created'] }}
+                </td>
+                <td>
+                    {{ submission['changed'] }}
+                </td>
+                <td>
+                    {{ submission['id_teamlead'] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{# {% endif %} #}

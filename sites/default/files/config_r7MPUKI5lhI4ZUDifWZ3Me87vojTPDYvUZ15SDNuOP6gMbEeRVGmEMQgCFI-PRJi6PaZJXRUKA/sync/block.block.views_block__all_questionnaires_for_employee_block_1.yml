@@ -1,0 +1,39 @@
+uuid: 0688d531-692d-4f99-b3d2-b87295713b8b
+langcode: ru
+status: true
+dependencies:
+  config:
+    - views.view.all_questionnaires_for_employee
+  module:
+    - system
+    - user
+    - views
+  theme:
+    - bootstrap
+id: views_block__all_questionnaires_for_employee_block_1
+theme: bootstrap
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:all_questionnaires_for_employee-block_1'
+settings:
+  id: 'views_block:all_questionnaires_for_employee-block_1'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }
+  user_role:
+    id: user_role
+    roles:
+      technical_expert: technical_expert
+      hr: hr
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

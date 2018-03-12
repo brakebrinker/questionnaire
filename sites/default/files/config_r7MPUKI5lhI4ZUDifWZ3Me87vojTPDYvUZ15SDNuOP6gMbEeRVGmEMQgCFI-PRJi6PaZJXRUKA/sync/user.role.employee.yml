@@ -1,0 +1,26 @@
+uuid: 27926de3-9fdc-49b7-8fa1-3cbb0aadae0d
+langcode: en
+status: true
+dependencies: {  }
+id: employee
+label: Employee
+weight: -7
+is_admin: null
+permissions:
+  - 'access content'
+  - 'create anketa content'
+  - 'create field_id_sotrudnika'
+  - 'edit own anketa content'
+  - 'edit own field_id_sotrudnika'
+  - 'edit own webform'
+  - 'edit own webform submission'
+  - 'edit webform submissions own node'
+  - 'view anketa revisions'
+  - 'view field_forma_ankety'
+  - 'view field_id_sotrudnika'
+  - 'view own field_forma_ankety'
+  - 'view own field_id_sotrudnika'
+  - 'view own field_select_users'
+  - 'view own webform submission'
+  - 'view webform submissions any node'
+  - 'view webform submissions own node'

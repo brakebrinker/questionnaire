@@ -1,0 +1,10 @@
+uuid: cd3b2347-5ad9-491c-8bcc-5106f5a12bf5
+langcode: ru
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q2Ra3jfoIVk0f3SjxJX61byRQFVBAbpzYDQOiY-kno8
+id: main
+label: 'Основная навигация'
+description: 'Site section links'
+locked: true

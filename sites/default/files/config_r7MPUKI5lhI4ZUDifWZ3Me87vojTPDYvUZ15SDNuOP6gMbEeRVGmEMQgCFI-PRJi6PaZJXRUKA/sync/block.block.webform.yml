@@ -1,0 +1,37 @@
+uuid: 7cd18468-3207-4049-9206-3805b151733d
+langcode: ru
+status: true
+dependencies:
+  module:
+    - system
+    - user
+    - webform
+  theme:
+    - bootstrap
+id: webform
+theme: bootstrap
+region: content
+weight: -6
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Анкета оценки сотрудника тимлидом'
+  provider: webform
+  label_display: visible
+  webform_id: anketa_ocenki
+  default_data: ''
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+      team_lider: team_lider
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
