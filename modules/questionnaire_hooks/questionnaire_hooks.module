@@ -1,5 +1,6 @@
 <?php
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Block\BlockPluginInterface;
 // use Drupal\user\Entity\User;
 
 
@@ -21,7 +22,7 @@ function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_stat
   $user_id = \Drupal::currentUser()->id();
   $user_name = \Drupal::currentUser()->getUsername();
   $user_email = \Drupal::currentUser()->getEmail();
-  
+
   if (in_array("team_lider", $user_roles)) {
     $filling_field_id_timlida = $form_state->getValue('id_timlida');
     $filling_field_name_timlida = $form_state->getValue('name_timlida');
@@ -68,4 +69,51 @@ function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_stat
 
   }
   // \Drupal::logger(' id_timlida')->notice('id_timlida 19 submit ');
+}
+
+// hook for webform_block
+function questionnaire_hooks_block_view_webform_block_alter(array &$build, BlockPluginInterface $block) {
+  if ($block->getBaseId() === 'webform_block') {
+    $build['#pre_render'][] = '_questionnaire_hooks_block_webform_block_prerender';
+  }
+}
+
+// checking last create questionnaire
+function _questionnaire_hooks_block_webform_block_prerender(array $build) {
+  $current_user_id = \Drupal::currentUser()->id();
+  $current_user_roles = \Drupal::currentUser()->getRoles();
+//  $query = \Drupal::entityQuery('webform_submission');
+//  $query->condition('webform_id', 'anketa_k_dkr');
+//  $query->join('users_field_data', 'ufd', 'ufd.uid = nfd.uid');
+//  $query->condition('uid', '6');
+//  $results = $query->execute();
+
+//  if (in_array("team_lider", $current_user_roles)) {
+    $query = \Drupal::database()->select('webform_submission', 'ws');
+    $query->fields('ws', ['sid', 'uid']);
+
+    $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
+    $condition_or->condition('ws.uid', '6');
+    $condition_or->condition('wsd.value', '6');
+
+    $query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
+    $query->fields('wsd', ['name', 'value']);
+    $query->condition('wsd.name', 'team_entity_sotrudnik');
+    $query->condition($condition_or);
+
+    $results = $query->execute()->fetchAll();
+//  }
+
+  print_r($results);
+
+//  use Drupal\node\Entity\Node;
+//  $nodes = Node::loadMultiple($results);
+
+  $a = false;
+
+  if ($a) {
+    return $build;
+  } else {
+    drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года.'), 'error');
+  }
 }
