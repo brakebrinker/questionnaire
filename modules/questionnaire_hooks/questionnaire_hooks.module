@@ -86,7 +86,7 @@ function _questionnaire_hooks_block_webform_block_prerender(array $build) {
     $current_user_id = \Drupal::currentUser()->id();
     $current_user_roles = \Drupal::currentUser()->getRoles();
 
-    $expirience_questionnaire_period = 11; // 15811200 - half of the year
+    $expirience_questionnaire_period = 15811200; // 15811200 - half of the year
     $expirience_questionnaire_date = time() - $expirience_questionnaire_period;
 
     $show_questionnaire = true;
@@ -98,8 +98,8 @@ function _questionnaire_hooks_block_webform_block_prerender(array $build) {
     if (in_array("employee", $current_user_roles)) {
 //
         $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
-        $condition_or->condition('ws.uid', 12);
-        $condition_or->condition('wsd.value', 12);
+        $condition_or->condition('ws.uid', $current_user_id);
+        $condition_or->condition('wsd.value', $current_user_id);
 //
         $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
 //        $submission_query = \Drupal::database()->select('webform_submission_data', 'wsd');
@@ -126,15 +126,16 @@ function _questionnaire_hooks_block_webform_block_prerender(array $build) {
         if (!empty($results)) {
             $webform_submission = WebformSubmission::load($results['sid']);
             $submission_data_fields = $webform_submission->getData();
-            echo 'id_empl: ' . $submission_data_fields['id_sotrudnika'];
-            echo 'date_create: ' . $webform_submission->getCreatedTime() . 'date_experience: ' . $expirience_questionnaire_date;
-            if (!empty($submission_data_fields['id_sotrudnika'])) {
-                echo 'not_empty!</br>';
+            echo '</br>id_empl: ' . $submission_data_fields['id_sotrudnika'];
+            echo '</br>date_create: ' . date('d.m.Y', $webform_submission->getCreatedTime()) . 'date_experience: ' . date('d.m.Y', $expirience_questionnaire_date);
+            if (empty($submission_data_fields['id_sotrudnika'])) {
+                echo '</br>is_empty!</br>';
             }
-            if ($webform_submission->getCreatedTime() > $expirience_questionnaire_date) {
-                echo 'date_create great than exp_date </br>';
+            if ($webform_submission->getCreatedTime() <= $expirience_questionnaire_date) {
+                echo '</br>date_create menshe than exp_date </br>';
             }
-            if ((!empty($submission_data_fields['id_sotrudnika'])) && ($webform_submission->getCreatedTime() > $expirience_questionnaire_date)) {
+
+            if ($webform_submission->getCreatedTime() > $expirience_questionnaire_date && empty($submission_data_fields['id_sotrudnika'])) {
                 $show_questionnaire = false;
                 $webform_update_url = $webform_submission->getTokenUrl()->toString();
                 echo $webform_update_url;
