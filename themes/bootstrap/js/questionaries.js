@@ -1,4 +1,5 @@
 (function ($, _) {
+
     "use strict";
 
     var baseUrl = location.origin;
@@ -27,7 +28,7 @@
         console.log(teamleadQuestionaries);
 
         if (Object.keys(employeeQuestionaries).length > 0 && Object.keys(teamleadQuestionaries).length > 0) {
-        
+
             var newTable = document.createElement('table');
             var newTableHead = document.createElement('thead');
             var newTableBody = document.createElement('tbody');
@@ -90,7 +91,7 @@
 
                 for (var resultQuestionareKey in resultQuestionaries) {
                     var resultTableCell = document.createElement('td');
-    
+
                     switch (resultQuestionareKey){
                         case 'sid': break;
                         case 'team_sid': break;
@@ -115,7 +116,7 @@
 
     // search for a dependent questionnare of teamlead
     function searchTeamleadQuestionnare(employeeId, employeeDateCreated) {
-        
+
         for (var teamleadQuestionareKey in teamleadQuestionaries) {
                 var timeDifference = Math.abs(teamleadQuestionaries[teamleadQuestionareKey].team_created_sec - employeeDateCreated);
                 var issetTeamleadSid = ~excludedSidQuestionaries.indexOf(teamleadQuestionaries[teamleadQuestionareKey].team_sid);
@@ -123,7 +124,7 @@
                 if (employeeId === teamleadQuestionaries[teamleadQuestionareKey].team_employee_id && timeDifference <= timeQuestionarePeriod && !issetTeamleadSid) {
 
                     excludedSidQuestionaries.push(teamleadQuestionaries[teamleadQuestionareKey].team_sid);
-                    
+
                     return teamleadQuestionaries[teamleadQuestionareKey];
                     // break;
                 } else {
@@ -142,7 +143,7 @@
             var timeDifference = Math.abs(employeeQuestionaries[employeeQuestionareKey].created_sec - teamleadDateCreated);
 
             if (teamEmployeeId === employeeQuestionaries[employeeQuestionareKey].author_id && timeDifference <= timeQuestionarePeriod) {
-                
+
                 // && !~excludedSidQuestionaries.indexOf(teamleadSid)
                 return employeeQuestionaries[employeeQuestionareKey];
                 // break;
@@ -172,7 +173,7 @@
                     if (Object.keys(teamleadSearched).length > 0) {
                         for (var teamleadSearchedKey in teamleadSearched) {
                             resultQuestionaries[teamleadSearchedKey] = teamleadSearched[teamleadSearchedKey];
-                        } 
+                        }
                     } else {
                         resultQuestionaries = createEmptyTeamleadFields(resultQuestionaries);
                     }
@@ -203,7 +204,7 @@
             }
             return resultQuestionaries;
         }
-        
+
     }
 
     function renderTable(createdTable) {
@@ -222,7 +223,7 @@
             //     readyTable = createTable();
             //     console.log('double TABLE');
             //     console.log(readyTable);
-                
+
             // }
         // console.log('Object.keys(readyTable).length: ' + Object.keys(readyTable).length);
         // console.log('Object.keys(workTabContainer).length: ' + Object.keys(workTabContainer).length);
@@ -262,7 +263,7 @@
         if (requestUrl === requestUrls[0]) {
             employeeQuestionaries = JSON.parse(responseText);
         }
-        
+
         if (requestUrl === requestUrls[1]) {
             teamleadQuestionaries = JSON.parse(responseText);
         }
@@ -294,7 +295,7 @@
 
         xhr.onreadystatechange = function() {
             if (this.readyState != 4) return;
-    
+
             if (xhr.status != 200) {
                 alert( xhr.status + ': ' + xhr.statusText );
             } else {
@@ -309,7 +310,7 @@
                 }
             }
         }
-    
+
         xhr.send();
     }
 

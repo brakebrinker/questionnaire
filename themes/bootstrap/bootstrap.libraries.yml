@@ -20,6 +20,10 @@ drupal.bootstrap:
 #     - core/jquery
 #     - core/underscore
 
+#persons:
+#  js:
+#    js/persons.js: {}
+
 # Create a library placeholder for livereload.
 # This is altered dynamically based on the set URL.
 # @see \Drupal\bootstrap\Plugin\Alter\LibraryInfo::alter
@@ -33,7 +37,8 @@ theme:
   dependencies:
     - bootstrap/drupal.bootstrap
     - bootstrap/attributes
-    # - bootstrap/questionaries
+#    - bootstrap/persons
+#     - bootstrap/questionaries
 
 theme-settings:
   js:

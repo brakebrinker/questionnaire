@@ -10,9 +10,11 @@ use Drupal\webform\Entity\WebformSubmission;
 // hook for submition webform anketa_k_dkr
 function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'webform_submission_anketa_k_dkr_add_form') {
+      print_r($form);
     foreach (array_keys($form['actions']) as $action) {
       if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
         $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_validate';
+
       }
     }
     // $form['#validate'][] = 'questionnaire_hooks_form_validate';
@@ -84,24 +86,45 @@ function questionnaire_hooks_block_view_webform_block_alter(array &$build, Block
 // checking last create questionnaire
 function _questionnaire_hooks_block_webform_block_prerender(array $build) {
     $current_user_id = \Drupal::currentUser()->id();
+    $current_user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
     $current_user_roles = \Drupal::currentUser()->getRoles();
 
-    $expirience_questionnaire_period = 15811200; // 15811200 - half of the year
-    $expirience_questionnaire_date = time() - $expirience_questionnaire_period;
+    $expired_questionnaire_period = 15811200; // 15811200 - half of the year
+    $expired_questionnaire_date = time() - $expired_questionnaire_period;
 
-    $show_questionnaire = true;
-    $msg = '';
+    print_r($current_user->get('field_select_users')->getValue());
+
+    if (in_array("employee", $current_user_roles)) {
+        if (!empty($webform_update_url = check_questionnaire_for_employee($current_user_id, $expired_questionnaire_date))) {
+            drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.'), 'error');
+            return;
+        }
+    }
+
+    if (in_array("team_lider", $current_user_roles)) {
+        echo ('msg from block teamlead');
+//        print_r($current_user->get('field_select_users')->getValue());
+        if (!empty($webform_update_url = check_questionnaire_for_employee($current_user_id, $expired_questionnaire_date))) {
+            drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.'), 'error');
+            return;
+        }
+    }
+
+    return $build;
+}
+
+// check last questionnare for current employee
+function check_questionnaire_for_employee($user_id, $expired_date) {
+    $webform_update_url = '';
 
     $submission_query = \Drupal::database()->select('webform_submission', 'ws');
     $submission_query->fields('ws', ['sid']);
-
-    if (in_array("employee", $current_user_roles)) {
 //
-        $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
-        $condition_or->condition('ws.uid', $current_user_id);
-        $condition_or->condition('wsd.value', $current_user_id);
+    $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
+    $condition_or->condition('ws.uid', $user_id);
+    $condition_or->condition('wsd.value', $user_id);
 //
-        $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
+    $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
 //        $submission_query = \Drupal::database()->select('webform_submission_data', 'wsd');
 //    $submission_query->fields('wsd', ['sid']);
 //        $condition_or_fields = new \Drupal\Core\Database\Query\Condition('OR');
@@ -110,44 +133,88 @@ function _questionnaire_hooks_block_webform_block_prerender(array $build) {
 
 //        $submission_query->where('ws.created < :entity_s', [':entity_s' => $expirience_questionnaire_date]);
 //        $submission_query->condition('ws.created', $expirience_questionnaire_date , '>');
-        $submission_query->condition($condition_or);
-        $submission_query->condition('wsd.name', 'team_entity_sotrudnik');
+    $submission_query->condition($condition_or);
+    $submission_query->condition('wsd.name', 'team_entity_sotrudnik');
 //        $submission_query->condition('wsd.value', $current_user_id);
 //        $submission_query->condition('wsd.name', 'id_sotrudnika');
 //        $submission_query->condition($condition_or_fields);
 
 //        $submission_query->addExpression('COUNT(wsd.sid)', 'count');
-        $submission_query->orderBy('ws.created', 'DESC');
+    $submission_query->orderBy('ws.created', 'DESC');
 //        $submission_query->groupBy('ws.sid');
 
-        $results = $submission_query->execute()->fetchAssoc();
-        print_r($results);
+    $last_submission = $submission_query->execute()->fetchAssoc();
+    print_r($last_submission);
 
-        if (!empty($results)) {
-            $webform_submission = WebformSubmission::load($results['sid']);
-            $submission_data_fields = $webform_submission->getData();
-            echo '</br>id_empl: ' . $submission_data_fields['id_sotrudnika'];
-            echo '</br>date_create: ' . date('d.m.Y', $webform_submission->getCreatedTime()) . 'date_experience: ' . date('d.m.Y', $expirience_questionnaire_date);
-            if (empty($submission_data_fields['id_sotrudnika'])) {
-                echo '</br>is_empty!</br>';
-            }
-            if ($webform_submission->getCreatedTime() <= $expirience_questionnaire_date) {
-                echo '</br>date_create menshe than exp_date </br>';
-            }
+    if (!empty($last_submission)) {
+        $webform_submission = WebformSubmission::load($last_submission['sid']);
+        $submission_data_fields = $webform_submission->getData();
+        echo '</br>id_empl: ' . $submission_data_fields['id_sotrudnika'];
+        echo '</br>date_create: ' . date('d.m.Y', $webform_submission->getCreatedTime()) . 'date_experience: ' . date('d.m.Y', $expired_date);
+        if (empty($submission_data_fields['id_sotrudnika'])) {
+            echo '</br>is_empty!</br>';
+        }
+        if ($webform_submission->getCreatedTime() <= $expired_date) {
+            echo '</br>date_create menshe than exp_date </br>';
+        }
 
-            if ($webform_submission->getCreatedTime() > $expirience_questionnaire_date && empty($submission_data_fields['id_sotrudnika'])) {
-                $show_questionnaire = false;
-                $webform_update_url = $webform_submission->getTokenUrl()->toString();
-                echo $webform_update_url;
-                $msg = 'Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.';
-            }
+        if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_sotrudnika'])) {
+            $webform_update_url = $webform_submission->getTokenUrl()->toString();
         }
     }
 
-    if ($show_questionnaire) {
-        return $build;
-    } else {
-        drupal_set_message(t($msg), 'error');
-    }
+    return $webform_update_url;
 }
 
+// check last questionnare for current employee
+function check_questionnaire_for_teamlead($user_id, $expired_date) {
+    $webform_update_url = '';
+
+    $submission_query = \Drupal::database()->select('webform_submission', 'ws');
+    $submission_query->fields('ws', ['sid']);
+//
+    $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
+    $condition_or->condition('ws.uid', $user_id);
+    $condition_or->condition('wsd.value', $user_id);
+//
+    $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
+//        $submission_query = \Drupal::database()->select('webform_submission_data', 'wsd');
+//    $submission_query->fields('wsd', ['sid']);
+//        $condition_or_fields = new \Drupal\Core\Database\Query\Condition('OR');
+//        $condition_or_fields->condition('wsd.name', 'team_entity_sotrudnik');
+//        $condition_or_fields->condition('wsd.name', 'id_sotrudnika');
+
+//        $submission_query->where('ws.created < :entity_s', [':entity_s' => $expirience_questionnaire_date]);
+//        $submission_query->condition('ws.created', $expirience_questionnaire_date , '>');
+    $submission_query->condition($condition_or);
+    $submission_query->condition('wsd.name', 'id_timlida');
+//        $submission_query->condition('wsd.value', $current_user_id);
+//        $submission_query->condition('wsd.name', 'id_sotrudnika');
+//        $submission_query->condition($condition_or_fields);
+
+//        $submission_query->addExpression('COUNT(wsd.sid)', 'count');
+    $submission_query->orderBy('ws.created', 'DESC');
+//        $submission_query->groupBy('ws.sid');
+
+    $last_submission = $submission_query->execute()->fetchAssoc();
+    print_r($last_submission);
+
+    if (!empty($last_submission)) {
+        $webform_submission = WebformSubmission::load($last_submission['sid']);
+        $submission_data_fields = $webform_submission->getData();
+        echo '</br>id_empl: ' . $submission_data_fields['id_sotrudnika'];
+        echo '</br>date_create: ' . date('d.m.Y', $webform_submission->getCreatedTime()) . 'date_experience: ' . date('d.m.Y', $expired_date);
+        if (empty($submission_data_fields['id_sotrudnika'])) {
+            echo '</br>is_empty!</br>';
+        }
+        if ($webform_submission->getCreatedTime() <= $expired_date) {
+            echo '</br>date_create menshe than exp_date </br>';
+        }
+
+        if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_sotrudnika'])) {
+            $webform_update_url = $webform_submission->getTokenUrl()->toString();
+        }
+    }
+
+    return $webform_update_url;
+}
