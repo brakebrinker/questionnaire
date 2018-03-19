@@ -6,19 +6,37 @@ use Drupal\webform\Entity\WebformSubmission;
 
 // use Drupal\user\Entity\User;
 
+const EXP_QUESTIONNAIRE_PERIOD = 11;// 15811200 - half of the year
 
 // hook for submition webform anketa_k_dkr
 function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'webform_submission_anketa_k_dkr_add_form') {
-      print_r($form);
+
     foreach (array_keys($form['actions']) as $action) {
       if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
         $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_validate';
+        $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_check_teamdlead';
+//          $form['actions']['submit']['#submit'][] = 'questionnaire_hooks_form_subm';
+//          print_r($form['actions']);
 
       }
     }
     // $form['#validate'][] = 'questionnaire_hooks_form_validate';
   }
+}
+
+// check teamlead on filling this questionnare for entering employee
+function questionnaire_hooks_form_check_teamdlead(&$form, FormStateInterface $form_state) {
+
+    $current_user_roles = \Drupal::currentUser()->getRoles();
+
+    if (in_array("team_lider", $current_user_roles)) {
+        $check_quest_msg = check_questionnaire_for_teamlead($form_state->getValue('team_entity_sotrudnik'));
+
+        if ($check_quest_msg) {
+            $form_state->setErrorByName('team_entity_sotrudnik', t($check_quest_msg));
+        }
+    }
 }
 
 // filling fields id_timlida and id_sotrudnika on submition webform
@@ -89,21 +107,11 @@ function _questionnaire_hooks_block_webform_block_prerender(array $build) {
     $current_user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
     $current_user_roles = \Drupal::currentUser()->getRoles();
 
-    $expired_questionnaire_period = 15811200; // 15811200 - half of the year
-    $expired_questionnaire_date = time() - $expired_questionnaire_period;
+    $expired_questionnaire_date = time() - EXP_QUESTIONNAIRE_PERIOD;
 
     print_r($current_user->get('field_select_users')->getValue());
 
     if (in_array("employee", $current_user_roles)) {
-        if (!empty($webform_update_url = check_questionnaire_for_employee($current_user_id, $expired_questionnaire_date))) {
-            drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.'), 'error');
-            return;
-        }
-    }
-
-    if (in_array("team_lider", $current_user_roles)) {
-        echo ('msg from block teamlead');
-//        print_r($current_user->get('field_select_users')->getValue());
         if (!empty($webform_update_url = check_questionnaire_for_employee($current_user_id, $expired_questionnaire_date))) {
             drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.'), 'error');
             return;
@@ -166,55 +174,64 @@ function check_questionnaire_for_employee($user_id, $expired_date) {
     return $webform_update_url;
 }
 
-// check last questionnare for current employee
-function check_questionnaire_for_teamlead($user_id, $expired_date) {
-    $webform_update_url = '';
+// check last questionnare for current employee filling teamlead
+function check_questionnaire_for_teamlead($employ_id) {
 
-    $submission_query = \Drupal::database()->select('webform_submission', 'ws');
-    $submission_query->fields('ws', ['sid']);
-//
-    $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
-    $condition_or->condition('ws.uid', $user_id);
-    $condition_or->condition('wsd.value', $user_id);
-//
-    $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
-//        $submission_query = \Drupal::database()->select('webform_submission_data', 'wsd');
-//    $submission_query->fields('wsd', ['sid']);
-//        $condition_or_fields = new \Drupal\Core\Database\Query\Condition('OR');
-//        $condition_or_fields->condition('wsd.name', 'team_entity_sotrudnik');
-//        $condition_or_fields->condition('wsd.name', 'id_sotrudnika');
+    $returned_msg = '';
 
-//        $submission_query->where('ws.created < :entity_s', [':entity_s' => $expirience_questionnaire_date]);
-//        $submission_query->condition('ws.created', $expirience_questionnaire_date , '>');
-    $submission_query->condition($condition_or);
-    $submission_query->condition('wsd.name', 'id_timlida');
-//        $submission_query->condition('wsd.value', $current_user_id);
-//        $submission_query->condition('wsd.name', 'id_sotrudnika');
-//        $submission_query->condition($condition_or_fields);
+    if (!is_his_employee($employ_id)) {
+        $returned_msg = 'Этот сотрудник за вами не закреплен.';
+    } else {
+        $expired_date = time() - EXP_QUESTIONNAIRE_PERIOD;
 
-//        $submission_query->addExpression('COUNT(wsd.sid)', 'count');
-    $submission_query->orderBy('ws.created', 'DESC');
-//        $submission_query->groupBy('ws.sid');
+        $submission_query = \Drupal::database()->select('webform_submission', 'ws');
+        $submission_query->fields('ws', ['sid']);
 
-    $last_submission = $submission_query->execute()->fetchAssoc();
-    print_r($last_submission);
+        $submission_query->join('webform_submission_data', 'wsd', 'wsd.sid = ws.sid');
 
-    if (!empty($last_submission)) {
-        $webform_submission = WebformSubmission::load($last_submission['sid']);
-        $submission_data_fields = $webform_submission->getData();
-        echo '</br>id_empl: ' . $submission_data_fields['id_sotrudnika'];
-        echo '</br>date_create: ' . date('d.m.Y', $webform_submission->getCreatedTime()) . 'date_experience: ' . date('d.m.Y', $expired_date);
-        if (empty($submission_data_fields['id_sotrudnika'])) {
-            echo '</br>is_empty!</br>';
-        }
-        if ($webform_submission->getCreatedTime() <= $expired_date) {
-            echo '</br>date_create menshe than exp_date </br>';
-        }
+        $condition_or = new \Drupal\Core\Database\Query\Condition('OR');
+        $condition_or->condition('ws.uid', $employ_id);
+        $condition_or->condition('wsd.value', $employ_id);
 
-        if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_sotrudnika'])) {
-            $webform_update_url = $webform_submission->getTokenUrl()->toString();
+        $submission_query->condition($condition_or);
+        $submission_query->condition('wsd.name', 'team_entity_sotrudnik');
+
+        $submission_query->orderBy('ws.created', 'DESC');
+
+        $last_submission = $submission_query->execute()->fetchAssoc();
+
+        if (!empty($last_submission)) {
+            $webform_submission = WebformSubmission::load($last_submission['sid']);
+            $submission_data_fields = $webform_submission->getData();
+
+            if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_timlida'])) {
+                $webform_update_url = $webform_submission->getTokenUrl()->toString();
+                $returned_msg = 'Анкета для этого пользователя уже существует. Перейдите по <a href="' . $webform_update_url . '">ссылке</a> для ее заполнения.';
+            }
+            if ($webform_submission->getCreatedTime() > $expired_date && !empty($submission_data_fields['id_timlida'])) {
+                $webform_update_url = $webform_submission->getTokenUrl()->toString();
+                $returned_msg = 'Вы уже заполняли анкету для этого пользователя. Можете перейти по <a href="' . $webform_update_url . '">ссылке</a> для ее редактирования.';
+            }
         }
     }
 
-    return $webform_update_url;
+    return $returned_msg;
+}
+
+// checks whether the employee refers to teamlead
+function is_his_employee($employ_id) {
+    $is_his_employee = false;
+
+    $current_user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+
+    $his_employees = $current_user->get('field_select_users')->getValue();
+
+    foreach ($his_employees as $employee) {
+        if (in_array($employ_id, $employee)) {
+            $is_his_employee = true;
+            break;
+        }
+    }
+
+    return $is_his_employee;
 }
