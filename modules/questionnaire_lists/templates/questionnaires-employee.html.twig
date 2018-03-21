@@ -1,10 +1,12 @@
 <p>Test twig template!</p>
- 
-<p>test_var: {{ test_var }}</p>
 
-{% if user.id %}
+<p>test_var: {{ test_var }}</p>
+<p>{{ teamlead.id }}</p>
+{% if teamlead.id %}
+    <p>{{ teamlead.id }}</p>
+    <a href="{{ path('entity.user.canonical', {'user': teamlead.id}) }}" rel="nofollow">{{ teamlead.id }}</a>
     <ul class="user">
-        <li class="user__welcome"><a href="{{ path('entity.user.canonical', {'user': user.id}) }}" rel="nofollow">{{ user.getDisplayName() }}</a></li>
+        <li class="user__welcome"></li>
         {#<li class="user__signout"><a href="/user/logout" rel="nofollow">Выход</a></li>#}
     </ul>
 {% else %}
@@ -13,11 +15,10 @@
         <li class="user__registration"><a href="/user/register">Регистрация</a></li>
     </ul>
 {% endif %}
-
-
 {#{% if submission is not empty %}#}
-<table>
-    <thead>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
         <tr>
             <th>ID</th>
             <th></th>
@@ -25,35 +26,40 @@
             <th></th>
             <th>Дата создания</th>
             <th>Дата изменения</th>
-            <th>Тимлид</th>
+            <th>Имя тимлида</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% for submission in submissions %}
             <tr>
                 <td>
                     {{ submission['sid'] }}
                 </td>
                 <td>
-                    {{ submission['locked'] }}
+                    {% if submission.locked %}
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                    {% endif %}
                 </td>
                 <td>
-                    view
+                    <a href="{{ submission.view_url }}/submissions/{{ submission.sid }}"><i class="fa fa-file-o" aria-hidden="true"></i></a>
                 </td>
                 <td>
-                    edit
+                    <a href="{{ submission.update_url }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 </td>
                 <td>
-                    {{ submission['created'] }}
+                    {{ submission.created|date("d.m.Y H:i") }}
                 </td>
                 <td>
-                    {{ submission['changed'] }}
+                    {{ submission.changed|date("d.m.Y H:i") }}
                 </td>
                 <td>
-                    {{ submission['id_teamlead'] }}
+                    {{ submission.name_teamlead }}
                 </td>
             </tr>
         {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 {# {% endif %} #}
