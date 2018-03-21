@@ -19,6 +19,7 @@ function questionnaire_lists_theme($existing, $type, $theme, $path) {
       'variables' => [
         'test_var' => NULL,
         'submissions' => NULL,
+          'user' => NULL,
     ],
       'template' => 'questionnaires-employee',
     ],

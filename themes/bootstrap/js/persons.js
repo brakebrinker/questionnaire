@@ -49,6 +49,6 @@
 
     var engine1 = new Engine('YMZ125', 'off');
     engine1.starting();
-    engine1.stopping();
+    // engine1.stopping();
 
 })(window.jQuery, window._);

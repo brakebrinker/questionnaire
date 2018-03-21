@@ -2,6 +2,19 @@
  
 <p>test_var: {{ test_var }}</p>
 
+{% if user.id %}
+    <ul class="user">
+        <li class="user__welcome"><a href="{{ path('entity.user.canonical', {'user': user.id}) }}" rel="nofollow">{{ user.getDisplayName() }}</a></li>
+        {#<li class="user__signout"><a href="/user/logout" rel="nofollow">Выход</a></li>#}
+    </ul>
+{% else %}
+    <ul class="user">
+        <li class="user__signin"><a href="/user/login">Вход</a></li>
+        <li class="user__registration"><a href="/user/register">Регистрация</a></li>
+    </ul>
+{% endif %}
+
+
 {#{% if submission is not empty %}#}
 <table>
     <thead>
