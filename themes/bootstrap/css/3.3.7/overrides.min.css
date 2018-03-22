@@ -181,6 +181,15 @@ ul.quicktabs-tabs li.active {
 .not-filling {
     color: #ce0808;
 }
+details {
+    margin-bottom: 40px;
+}
+summary {
+    color: #9e9e9e;
+}
+.details-wrapper {
+    color: #9e9e9e;
+}
 
 @media screen and (max-width:767px) {
     ul.quicktabs-tabs li {

@@ -1,7 +1,3 @@
-{% if teamlead.id %}
-    <span>Ваш тимлид: </span>
-    <a href="{{ path('entity.user.canonical', {'user': teamlead.id}) }}" rel="nofollow">{{ teamlead.getDisplayName() }}</a>
-{% endif %}
 {#{% if submission is not empty %}#}
 <div class="table-responsive">
     <table class="table table-hover table-striped">
@@ -13,14 +9,14 @@
             <th></th>
             <th>Дата создания</th>
             <th>Дата изменения</th>
-            <th>Имя тимлида</th>
+            <th>Имя сотрудника</th>
         </tr>
         </thead>
         <tbody>
         {% for submission in submissions %}
             <tr>
                 <td>
-                    {{ submission['sid'] }}
+                    {{ submission.sid }}
                 </td>
                 <td>
                     {% if submission.locked %}
@@ -34,7 +30,7 @@
                 </td>
                 <td>
                     {% if submission.locked %}
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
                     {% else %}
                         <a href="{{ submission.update_url }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     {% endif %}
@@ -46,7 +42,7 @@
                     {{ submission.changed|date("d.m.Y H:i") }}
                 </td>
                 <td>
-                    {{ submission.name_teamlead }}
+                    {{ submission.entity_employee.getDisplayName() }}
                 </td>
             </tr>
         {% endfor %}

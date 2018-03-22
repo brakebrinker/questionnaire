@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\questionnaire_lists\Plugin\Block\HelloBlock.
+ * Contains \Drupal\questionnaire_lists\Plugin\Block\QuestionnairesEmployeeBlock.
  */
 
 namespace Drupal\questionnaire_lists\Plugin\Block;
@@ -10,14 +10,14 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\user\Entity\User;
 
 /**
- * Provides a 'Hello' Block
+ * Provides a 'QuestionnairesEmployee' Block
  *
  * @Block(
- *   id = "questionnaire_lists_block",
- *   admin_label = @Translation("Questionnaire lists"),
+ *   id = "questionnaire_lists_block_for_employee",
+ *   admin_label = @Translation("Questionnaire list for employee"),
  * )
  */
-class HelloBlock extends BlockBase {
+class QuestionnairesEmployeeBlock extends BlockBase {
     /**
      * {@inheritdoc}
      */
@@ -33,24 +33,14 @@ class HelloBlock extends BlockBase {
         $current_user_id = \Drupal::currentUser()->id();
         $webformSubmissionsList = [];
 
-//         $output = array();
-
-//         $output['#title'] = 'HelloWorld page title';
-
-        $output = 'Hello World text!';
-
-        // $nids = \Drupal::entityQuery('node')->condition('type','article')->execute();
-        // $nodes =  \Drupal\node\Entity\Node::loadMultiple($nids);
-        $sids_current_user = $this->issetOldQuestionnaireForUser($current_user_id);
+        $sids_current_user = $this->getAllQuestionnairesIDForUser($current_user_id);
 
         $webformSubmissions = \Drupal::service('entity.manager')->getStorage('webform_submission')->loadMultiple($sids_current_user);
 
-
         foreach ($webformSubmissions as $webformSubmission) {
-            // $webform = $webformSubmission->getWebform();
+
             $innerDataWebformSubmission = $webformSubmission->getData();
 
-//            if ($submitted_by_id = $webformSubmission->getOwnerId() === $current_user_id) {
                 $webformSubmissionsList[] = array(
                     'sid' => $webformSubmission->id(),
                     'label' => $webformSubmission->label(),
@@ -71,12 +61,8 @@ class HelloBlock extends BlockBase {
                     'token' => $webformSubmission->getToken(),
                     'update_url' => $webformSubmission->getTokenUrl()->toString(),
                     'view_url' => str_replace("form", "webform", $webformSubmission->getSourceUrl()->toString())
-                    // 'notes' => $webform_submission->getNotes(),
                 );
-//            }
-            // $contentTypesList[] = $contentType->getData();
-            // $contentTypesList['teamlead_id'] = $contentType->id();
-            // echo 'webforms: ' . $webformSubmission->id();
+
         }
 
         return $webformSubmissionsList;
@@ -95,7 +81,7 @@ class HelloBlock extends BlockBase {
             foreach ($selected_employees as $selected_employee) {
 
                 if (in_array($emloyee_id, $selected_employee)) {
-                    return $selected_employees;
+                    return $teamlead;
                 }
             }
 
@@ -105,7 +91,8 @@ class HelloBlock extends BlockBase {
     }
 
     // db query get list questionnaire for current employee
-    private static function issetOldQuestionnaireForUser($user_id) {
+    private static function getAllQuestionnairesIDForUser($user_id) {
+        $all_submissions = [];
 
         $submission_query = \Drupal::database()->select('webform_submission', 'ws');
         $submission_query->fields('ws', ['sid']);
@@ -124,15 +111,13 @@ class HelloBlock extends BlockBase {
         $all_submissions = $submission_query->execute()->fetchCol();
 
         return $all_submissions;
-
     }
 
     public function build() {
-print_r($this->getTimlid(\Drupal::currentUser()->id()));
-//print_r(\Drupal::currentUser());
+
         return array(
             '#theme' => 'questionnaires-employee-display',
-//            '#teamlead' => ,
+            '#teamlead' => $this->getTimlid(\Drupal::currentUser()->id()),
             '#submissions' => $this->getListForEmployee(),
             '#cache' => array(
                 'max-age' => 0,
