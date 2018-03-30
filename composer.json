@@ -6,7 +6,8 @@
     "require": {
         "composer/installers": "^1.0.24",
         "wikimedia/composer-merge-plugin": "^1.4",
-        "dompdf/dompdf": "^0.8.2"
+        "dompdf/dompdf": "^0.8.2",
+        "drupal/better_exposed_filters": "^3.0@alpha"
     },
     "replace": {
         "drupal/core": "^8.5"
@@ -63,5 +64,8 @@
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
+    ],
+    "post-update-cmd": [
+        "drush updatedb"
     ]
 }
