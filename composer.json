@@ -8,7 +8,8 @@
         "wikimedia/composer-merge-plugin": "^1.4",
         "dompdf/dompdf": "^0.8.2",
         "drupal/better_exposed_filters": "^3.0@alpha",
-        "drupal/entity_print_views": "^2.0"
+        "drupal/entity_print_views": "^2.0",
+        "drupal/field_permissions": "^1.0@beta"
     },
     "replace": {
         "drupal/core": "^8.5"
