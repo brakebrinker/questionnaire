@@ -1,33 +1,27 @@
 <?php
 
-/* core/themes/seven/templates/block--local-actions-block.html.twig */
-class __TwigTemplate_81debda05de8a0993a63e936e7b6c89520d588fc374cb00cf2e7d137991f8767 extends Twig_Template
+/* {# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25203%2520%252813%2529 */
+class __TwigTemplate_6e8541a524ae12761cc3e1005134826b3176d06f68740d98d7b900503b911e49 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
         parent::__construct($env);
 
-        // line 1
-        $this->parent = $this->loadTemplate("@block/block.html.twig", "core/themes/seven/templates/block--local-actions-block.html.twig", 1);
-        $this->blocks = array(
-            'content' => array($this, 'block_content'),
-        );
-    }
+        $this->parent = false;
 
-    protected function doGetParent(array $context)
-    {
-        return "@block/block.html.twig";
+        $this->blocks = array(
+        );
     }
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $tags = array("if" => 9);
+        $tags = array();
         $filters = array();
         $functions = array();
 
         try {
             $this->env->getExtension('Twig_Extension_Sandbox')->checkSecurity(
-                array('if'),
+                array(),
                 array(),
                 array()
             );
@@ -45,39 +39,18 @@ class __TwigTemplate_81debda05de8a0993a63e936e7b6c89520d588fc374cb00cf2e7d137991
             throw $e;
         }
 
-        $this->parent->display($context, array_merge($this->blocks, $blocks));
-    }
-
-    // line 8
-    public function block_content($context, array $blocks = array())
-    {
-        // line 9
-        echo "  ";
-        if (($context["content"] ?? null)) {
-            // line 10
-            echo "    <ul class=\"action-links\">
-      ";
-            // line 11
-            echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["content"] ?? null), "html", null, true));
-            echo "
-    </ul>
-  ";
-        }
+        // line 1
+        echo "destination=/ru/node%3Fuid%3Demployee%25203%2520%252813%2529";
     }
 
     public function getTemplateName()
     {
-        return "core/themes/seven/templates/block--local-actions-block.html.twig";
-    }
-
-    public function isTraitable()
-    {
-        return false;
+        return "{# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25203%2520%252813%2529";
     }
 
     public function getDebugInfo()
     {
-        return array (  61 => 11,  58 => 10,  55 => 9,  52 => 8,  11 => 1,);
+        return array (  43 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -90,6 +63,6 @@ class __TwigTemplate_81debda05de8a0993a63e936e7b6c89520d588fc374cb00cf2e7d137991
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "core/themes/seven/templates/block--local-actions-block.html.twig", "/home/ITRANSITION.CORP/m.pevnev/projects/www/questionnaire/core/themes/seven/templates/block--local-actions-block.html.twig");
+        return new Twig_Source("", "{# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25203%2520%252813%2529", "");
     }
 }

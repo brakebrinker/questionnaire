@@ -1,7 +1,7 @@
 <?php
 
-/* core/themes/classy/templates/navigation/menu-local-action.html.twig */
-class __TwigTemplate_1e2359f291e803e429193c6a4030c2c2c629a1073d224450c9c2c16404c3b664 extends Twig_Template
+/* {# inline_template_start #}Не заполнено */
+class __TwigTemplate_8543a5b60812c83be21aa7c12d8dda9db2dea61d0e21606f6f4bf3b6472d7bda extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -39,28 +39,18 @@ class __TwigTemplate_1e2359f291e803e429193c6a4030c2c2c629a1073d224450c9c2c16404c
             throw $e;
         }
 
-        // line 13
-        echo "<li";
-        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["attributes"] ?? null), "html", null, true));
-        echo ">";
-        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["link"] ?? null), "html", null, true));
-        echo "</li>
-";
+        // line 1
+        echo "Не заполнено";
     }
 
     public function getTemplateName()
     {
-        return "core/themes/classy/templates/navigation/menu-local-action.html.twig";
-    }
-
-    public function isTraitable()
-    {
-        return false;
+        return "{# inline_template_start #}Не заполнено";
     }
 
     public function getDebugInfo()
     {
-        return array (  43 => 13,);
+        return array (  43 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -73,6 +63,6 @@ class __TwigTemplate_1e2359f291e803e429193c6a4030c2c2c629a1073d224450c9c2c16404c
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "core/themes/classy/templates/navigation/menu-local-action.html.twig", "/home/ITRANSITION.CORP/m.pevnev/projects/www/questionnaire/core/themes/classy/templates/navigation/menu-local-action.html.twig");
+        return new Twig_Source("", "{# inline_template_start #}Не заполнено", "");
     }
 }

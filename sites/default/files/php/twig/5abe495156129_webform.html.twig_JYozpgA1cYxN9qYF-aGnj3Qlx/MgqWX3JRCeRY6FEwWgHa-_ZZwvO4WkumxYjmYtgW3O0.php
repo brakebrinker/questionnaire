@@ -1,7 +1,7 @@
 <?php
 
-/* {# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25202%2520%252812%2529 */
-class __TwigTemplate_67ba5429848a7e8043730e5bd924e88753116ae79758579f888eedd12cab5d26 extends Twig_Template
+/* modules/contrib/webform/templates/webform.html.twig */
+class __TwigTemplate_65619774a62d788ffe09c08088dec21d8d638ec70712972760fa8061882ed755 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -39,18 +39,39 @@ class __TwigTemplate_67ba5429848a7e8043730e5bd924e88753116ae79758579f888eedd12ca
             throw $e;
         }
 
-        // line 1
-        echo "destination=/ru/node%3Fuid%3Demployee%25202%2520%252812%2529";
+        // line 24
+        echo "<form";
+        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["attributes"] ?? null), "html", null, true));
+        echo ">
+  ";
+        // line 25
+        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["title_prefix"] ?? null), "html", null, true));
+        echo "
+  ";
+        // line 26
+        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["children"] ?? null), "html", null, true));
+        echo "
+  ";
+        // line 27
+        echo $this->env->getExtension('Twig_Extension_Sandbox')->ensureToStringAllowed($this->env->getExtension('Drupal\Core\Template\TwigExtension')->escapeFilter($this->env, ($context["title_suffix"] ?? null), "html", null, true));
+        echo "
+</form>
+";
     }
 
     public function getTemplateName()
     {
-        return "{# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25202%2520%252812%2529";
+        return "modules/contrib/webform/templates/webform.html.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
     }
 
     public function getDebugInfo()
     {
-        return array (  43 => 1,);
+        return array (  56 => 27,  52 => 26,  48 => 25,  43 => 24,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -63,6 +84,6 @@ class __TwigTemplate_67ba5429848a7e8043730e5bd924e88753116ae79758579f888eedd12ca
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "{# inline_template_start #}destination=/ru/node%3Fuid%3Demployee%25202%2520%252812%2529", "");
+        return new Twig_Source("", "modules/contrib/webform/templates/webform.html.twig", "/home/ITRANSITION.CORP/m.pevnev/projects/www/questionnaire/modules/contrib/webform/templates/webform.html.twig");
     }
 }
