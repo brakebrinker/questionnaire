@@ -1,7 +1,0 @@
-fontawesome.admin_settings:
-  path: '/admin/config/content/fontawesome'
-  defaults:
-    _form: '\Drupal\fontawesome\Form\SettingsForm'
-    _title: 'Font Awesome settings'
-  requirements:
-    _permission: 'administer site configuration'
