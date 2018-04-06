@@ -1,0 +1,21 @@
+uuid: 4d865429-0c74-4859-9450-2a769bfb4cba
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id_timlida
+    - node.type.anketa
+id: node.anketa.field_id_timlida
+field_name: field_id_timlida
+entity_type: node
+bundle: anketa
+label: 'ID тимлида'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '[current-user:uid]'
+default_value_callback: ''
+settings: {  }
+field_type: string

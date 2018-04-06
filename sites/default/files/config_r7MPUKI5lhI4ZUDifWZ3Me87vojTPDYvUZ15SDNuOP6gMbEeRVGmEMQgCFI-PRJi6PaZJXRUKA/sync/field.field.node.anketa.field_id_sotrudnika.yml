@@ -1,0 +1,19 @@
+uuid: fa11b931-85c5-438d-a5d7-92371706b4df
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_id_sotrudnika
+    - node.type.anketa
+id: node.anketa.field_id_sotrudnika
+field_name: field_id_sotrudnika
+entity_type: node
+bundle: anketa
+label: 'ID сотрудника'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

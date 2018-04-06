@@ -1,0 +1,12 @@
+uuid: 6809acf5-ba63-4253-b584-30708fb8117a
+langcode: en
+status: true
+dependencies: {  }
+id: hr
+label: HR
+weight: -4
+is_admin: null
+permissions:
+  - 'access user profiles'
+  - 'administer users'
+  - 'entity print access bundle anketa_k_dkr'

@@ -1,0 +1,14 @@
+## Первым делом объявляется машинное имя роута. Оно составляетсям из:
+## название_модуля.машинное_название_роута.
+#questionnaire_lists.questionnaires_employee:
+#  # Указываем путь роута, с лидирующим слешем.
+#  path: '/questionnaires-employee'
+#  # Значения по умолчанию
+#  defaults:
+#    # Функция контроллера отвечающая за содержимое.
+#    _controller: '\Drupal\questionnaire_lists\Controller\QuestionnairesEmployeeController::getListForEmployee'
+#  # В данном разделе указываются необходимые требования для роута.
+#  requirements:
+#    # Мы будем показывать страницу только тем, у кого есть права на просмотр
+#    # содержимого.
+#    _permission: 'view content'
