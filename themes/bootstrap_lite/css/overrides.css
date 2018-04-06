@@ -1,0 +1,189 @@
+/* Navbar + admin-bar fixes */
+
+.toolbar-oriented .toolbar-bar{
+  z-index:1600;
+}
+/* Logo fixes to meet navbar requirements by size. */
+
+/*Content padding*/
+#block-bootstrap-lite-content {
+  padding: 15px 0px;
+}
+
+/* Admin style overwrite*/
+
+.panel.panel-default {
+  padding: 0px;
+}
+
+/* Table style fixes. */
+th.checkbox,td.checkbox,th.radio,td.radio{
+  display:table-cell;
+}
+
+tr.even {
+  background-color: transparent;
+}
+
+table.sticky-header {
+  z-index: 1000;
+}
+.sticky-header th {
+  padding: 8px;
+}
+
+/* Fix drop button style in admin area. */
+.dropbutton .dropbutton-action > * {
+  padding: 6px 12px;  
+}
+
+.dropbutton .dropbutton-action a,
+.dropbutton .dropbutton-action a:hover
+{
+  border: none;
+}
+
+/* Fix Hanle for drag&drop. */
+div.handle {
+  box-sizing: content-box;
+}
+
+/* Fix VIEWS UI. */
+.container-inline div {
+  display: inline-block;
+}
+
+.views-display-setting .label {
+  color: #666666;
+  font-size: 12px;
+}
+
+#views-ui-preview-form > div > div,
+#views-ui-preview-form > div > input {
+  float: none;  
+}
+
+.views-display-columns > * {
+  margin: 0;
+}
+.views-display-columns > *:first-child {
+  margin: 0px;
+  padding-left:15px;
+}
+
+.views-ui-display-tab-bucket {
+  padding-top: 0px;
+}
+
+.views-ui-display-tab-bucket .dropbutton li > * {
+  padding: 6px 12px;
+}
+
+.views-ui-display-tab-bucket + .views-ui-display-tab-bucket {
+  border-top: 1px solid #ddd;
+}
+
+/* Fix page title padding. */
+h1.page-title {
+  padding-bottom: 15px;
+}
+
+/* Style user pic. */
+.user-picture img {
+  border: 1px solid #e5e7e8;
+  padding: 1px; 
+}
+
+/* Style nodes and coments in twitter style. */
+.view-mode-teaser,
+.comment {
+  padding-bottom: 15px;
+  padding-top: 15px;
+  margin-top: 0px;
+  border-bottom: 1px dashed #efefef;
+}
+
+/* Tabs style */
+
+ul.nav.nav-pills.tabs-secondary li{
+  margin-top: 10px;
+}
+
+/* Add spacing for pager. */
+ul.pager {
+  padding-top: 20px;
+}
+
+
+/* Status report*/
+table.system-status-report td.status-icon {
+  width: 60px;
+}
+table.system-status-report tr.error td.status-icon div,
+table.system-status-report tr.ok td.status-icon div,
+table.system-status-report tr.warning td.status-icon div,
+table.system-status-report tr.info td.status-icon div {
+  background: none;
+}
+
+table.system-status-report .status-title {
+  font-weight: bold;
+}
+
+table.system-status-report td {
+  padding: 8px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+table.system-status-report tr.error td.status-icon div:before {
+  content: "\f00d";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 20px;
+  padding-right: 10px;
+  background: none;
+  float: left;
+  color: red;
+  padding-left: 15px;
+}
+
+table.system-status-report tr.ok td.status-icon div:before {
+  content: "\f00c";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 20px;
+  padding-right: 10px;
+  background: none;
+  float: left;
+  color: green;
+  padding-left: 15px;
+}
+
+table.system-status-report tr.warning td.status-icon div:before {
+  content: "\f071";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 20px;
+  padding-right: 10px;
+  background: none;
+  float: left;
+  color: orange;
+  padding-left: 15px;
+}
+
+table.system-status-report tr.info td.status-icon div:before {
+  content: "\f05a";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-size: 20px;
+  padding-right: 10px;
+  background: none;
+  float: left;
+  color: #4389f3;
+  padding-left: 15px;
+}
+
+.system-modules td.checkbox {
+  text-align: center;
+}

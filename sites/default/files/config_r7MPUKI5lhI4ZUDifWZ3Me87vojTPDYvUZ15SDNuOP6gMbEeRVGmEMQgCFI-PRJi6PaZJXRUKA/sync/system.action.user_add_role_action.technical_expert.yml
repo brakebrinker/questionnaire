@@ -1,0 +1,14 @@
+uuid: 88cfacaa-6056-4686-96a2-ff64ac344e74
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.technical_expert
+  module:
+    - user
+id: user_add_role_action.technical_expert
+label: 'Add the Technical Expert role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: technical_expert

@@ -1,0 +1,77 @@
+/**
+ * @file
+ * Styles for system messages.
+ */
+
+.alert-success:before {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  content: "\f00c";
+  color: green;
+  padding-right: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+[dir="rtl"] .alert-success:after {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  content: "\f00c";
+  color: green;
+  padding-left: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.alert-warning:before {
+  content: "\f071";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  color: orange;
+  padding-right: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+[dir="rtl"]  .alert-warning:after {
+  content: "\f071";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  color: orange;
+  padding-left: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.alert-danger:before {
+  content: "\f00d";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  color: red;
+  padding-right: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+[dir="rtl"] .alert-danger:after {
+  content: "\f00d";
+  font-family: 'FontAwesome';
+  font-style: normal;
+  color: red;
+  padding-left: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.messages-wrapper {
+  display: inline-block;
+}
+
+.messages__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.messages__item + .messages__item {
+  margin-top: 0.769em;
+}

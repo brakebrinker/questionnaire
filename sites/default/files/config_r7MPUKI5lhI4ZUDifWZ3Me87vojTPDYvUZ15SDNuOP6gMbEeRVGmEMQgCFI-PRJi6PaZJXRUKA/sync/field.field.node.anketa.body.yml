@@ -1,0 +1,22 @@
+uuid: 6582a7f1-4668-4290-8cd2-33848a05950f
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.anketa
+  module:
+    - text
+id: node.anketa.body
+field_name: body
+entity_type: node
+bundle: anketa
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
