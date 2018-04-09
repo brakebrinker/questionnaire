@@ -1,0 +1,11 @@
+uuid: 1fff871d-e79c-4495-81f7-a9ab0c4a81bb
+langcode: ru
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Анонимный пользователь'
+weight: -10
+is_admin: false
+permissions: {  }

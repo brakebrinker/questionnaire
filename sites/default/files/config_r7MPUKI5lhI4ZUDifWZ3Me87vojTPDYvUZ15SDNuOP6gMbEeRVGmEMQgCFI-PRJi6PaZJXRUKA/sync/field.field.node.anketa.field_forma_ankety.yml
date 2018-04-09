@@ -1,0 +1,36 @@
+uuid: 0dbcee02-4cf0-4b70-9433-adc1b3aa03ab
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_forma_ankety
+    - node.type.anketa
+    - webform.webform.anketa_k_dkr
+  module:
+    - webform
+id: node.anketa.field_forma_ankety
+field_name: field_forma_ankety
+entity_type: node
+bundle: anketa
+label: 'Форма анкеты'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_data: ''
+    status: open
+    open: ''
+    close: ''
+    target_uuid: e2d7ee33-b873-4b5c-a68f-6475160f7552
+default_value_callback: ''
+settings:
+  handler: 'default:webform'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+  default_data: ''
+  status: open
+  open: ''
+  close: ''
+field_type: webform

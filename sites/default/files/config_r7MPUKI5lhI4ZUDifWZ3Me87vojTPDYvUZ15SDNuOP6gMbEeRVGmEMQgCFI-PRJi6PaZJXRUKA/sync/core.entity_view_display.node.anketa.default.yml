@@ -1,0 +1,55 @@
+uuid: e8187949-df73-4ac2-bc3b-3007b23517fe
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.field.node.anketa.body
+    - field.field.node.anketa.field_forma_ankety
+    - field.field.node.anketa.field_id_sotrudnika
+    - field.field.node.anketa.field_id_timlida
+    - node.type.anketa
+  module:
+    - text
+    - user
+    - webform
+id: node.anketa.default
+targetEntityType: node
+bundle: anketa
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_forma_ankety:
+    weight: 102
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  field_id_sotrudnika:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_id_timlida:
+    weight: 104
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

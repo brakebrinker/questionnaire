@@ -1,0 +1,29 @@
+uuid: 4822dd0d-6cd7-4326-9fa1-11b906ebfe2a
+langcode: ru
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.anketa.body
+    - node.type.anketa
+  module:
+    - text
+    - user
+id: node.anketa.teaser
+targetEntityType: node
+bundle: anketa
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

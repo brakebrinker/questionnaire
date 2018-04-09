@@ -1,0 +1,407 @@
+uuid: e2d7ee33-b873-4b5c-a68f-6475160f7552
+langcode: ru
+status: open
+dependencies:
+  module:
+    - webform_scheduled_email
+open: null
+close: null
+uid: 1
+template: false
+id: anketa_k_dkr
+title: 'Анкета к ДКР'
+description: ''
+category: ''
+elements: "emp_razdel_sotrudnika:\n  '#type': webform_section\n  '#title': 'Раздел сотрудника'\n  '#title_display': invisible\n  '#title_tag': h3\n  '#access_create_roles':\n    - administrator\n    - employee\n  '#access_update_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  id_sotrudnika:\n    '#type': hidden\n    '#title': 'ID сотрудника'\n  name_sotrudnika:\n    '#type': hidden\n    '#title': 'Имя сотрудника'\n  email_sotrudnika:\n    '#type': hidden\n    '#title': 'Email сотрудника'\n  emp_processed_text:\n    '#type': processed_text\n    '#access_create_roles':\n      - administrator\n      - employee\n    '#text': \"<p>Привет.</p>\\n\\n<p>Готовясь к дкру, мы запускаем процесс пересмотра твоей квалификации и в связи с этим просим тебя заполнить приаттаченную анкету. Анкета – основа для сбора всей необходимой информации, поэтому постарайся заполнить ее максимально подробно.</p>\\n\\n<p>Вся анкета разбита на блоки. Текст универсален для разработчиков всех уровней, квалификации и команд, поэтому некоторые блоки могут быть для тебя неактуальны (например, обучение новичков, участие в RFX) – это нормально. Если какие-то вопросы тебе непонятны или вызывают затруднения – за разъяснением ты всегда можешь обратиться к HRу, техническому лидеру проекта, своему юнит-менеджеру (и к гуглу).</p>\\n\\n<p>Постарайся избегать пространных ответов типа: «я не припомню» или «это было давно», «не скажу», «вообще не понимаю о чем вопрос», «я не знаю».</p>\\n\\n<p>Важно: если ты заполняешь анкету впервые – оценивай и описывай свой опыт работы в компании за все годы, а также опыт работы вне компании. Твои заслуги до прихода в Itransition не должны остаться незамеченными. Первый раз анкета может потребовать много времени. Дальше будет проще. Нужно будет только обновлять информацию к каждому дкру.</p>\\n\\n<p>Помни: подробно заполненная анкета поможет нам оперативно пересмотреть и повысить твою квалификацию. Пожалуйста, отнесись к этому серьезно. Постарайся заполнить анкету за 1 неделю до ДКР, чтобы у нас было время ее просмотреть и, при необходимости, запросить недостающую информацию.</p>\\n\\n<p>Благодарю за внимание.</p>\\n\\n<p>И всегда готова ответить на твои вопросы.</p>\\n\"\n    '#format': full_html\n  emp_processed_text_2:\n    '#type': processed_text\n    '#access_create_roles':\n      - administrator\n      - employee\n    '#text': \"<p><strong><em>Некоторые пояснения:</em></strong></p>\\n\\n<p><em>Во всех случаях, в которых упоминаются отзывы, необходимо указать автора и текст отзыва.</em></p>\\n\\n<p><em>Под платформами в данный момент подразумеваются исключительно: .NET (включая Xamarin и SharePoint), Java (включая Android), Ruby, Python, PHP, С++ (Desktop и Embedded), JavaScript(Angular, React, Ember, etc.), iOS (Swift, ObjectiveC). Соответственно, по этому определению,ASP.NET MVC, Mono/Xamarin и Windows Forms - разные технологии, а не платформы</em></p>\\n\"\n    '#format': full_html\nrazdel_timlida:\n  '#type': webform_section\n  '#title': 'Раздел тимлида'\n  '#title_display': invisible\n  '#access_create_roles':\n    - administrator\n    - team_lider\n  '#access_update_roles':\n    - administrator\n    - team_lider\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - team_lider\n    - technical_expert\n    - hr\n  id_timlida:\n    '#type': hidden\n    '#title': 'ID тимлида'\n  name_timlida:\n    '#type': hidden\n    '#title': 'Имя тимлида'\n  email_timlida:\n    '#type': hidden\n    '#title': 'Email тимлида'\n  team_processed_text:\n    '#type': processed_text\n    '#text': \"<p><strong><em>Некоторые пояснения:</em></strong></p>\\n\\n<p><em>Во всех случаях, в которых упоминаются отзывы, необходимо указать автора и текст отзыва.</em></p>\\n\\n<p><em>Во всех случаях необходимо ориентироваться не на \\\"кажется\\\", \\\"должно быть\\\", а на достоверно известный зафиксированный (в переписке, в личном деле, в любых других системах ведения проекта) факт.</em></p>\\n\\n<p><em>Под платформами в данный момент подразумеваются исключительно: .NET (включая Xamarin и SharePoint), Java (включая Android), Ruby, Python, PHP, С++ (Desktop и Embedded), JavaScript (Angular, React, Ember, etc.), iOS (Swift, ObjectiveC). Соответственно, по этому определению, ASP.NET MVC, Mono/Xamarin и Windows Forms - разные технологии, а не платформы</em></p>\\n\"\n    '#format': full_html\n  team_entity_sotrudnik:\n    '#type': entity_autocomplete\n    '#title': Сотрудник\n    '#description': 'Выберите сотрудника для которого заполняете анкету'\n    '#required': true\n    '#target_type': user\n    '#selection_handler': 'default:user'\n    '#selection_settings':\n      include_anonymous: true\n      filter:\n        type: role\n        role:\n          employee: employee\n          administrator: 0\n          team_lider: 0\n          technical_expert: 0\n          hr: 0\nemp_opyt_proekty_audit:\n  '#type': webform_wizard_page\n  '#title': 'Опыт, проекты, аудит'\n  '#open': true\n  '#access_create_roles':\n    - administrator\n    - employee\n  '#access_update_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#prev_button_label': Назад\n  '#next_button_label': Далее\n  emp_opyt_raboty_s_nacinausimi_specialistami:\n    '#type': webform_section\n    '#title': 'Опыт работы с начинающими специалистами'\n    '#title_tag': h3\n    emp_opyt_1:\n      '#type': textarea\n      '#title': 'Кто из новичков поднял свою квалификацию под твоим менторством на один подуровень квалификации (с J- до J=, J= до J+, с J+ до D-)?'\n      '#description': '<em><strong>Пояснение:</strong></em><em> если не знаешь точно, было ли такое, то просто укажи фамилии новичков, которых тебе доводилось курировать, мы сами проверим остальное.</em>'\n      '#access_create_permissions':\n        - 'edit own webform'\n    emp_opyt_2:\n      '#type': textarea\n      '#title': 'Кто из новичков поднял поднял свою квалификацию под твоим менторством на два подуровня квалификации (с J- до J+, J= до D-, с J+ до D=)?'\n    emp_opyt_3:\n      '#type': textarea\n      '#title': \"Кто из новичков поднял свою квалификацию под твоим менторством на один\\_полный\\_уровень квалификации (с J- до D-, J= до D=, с J+ до D+)?\"\n    emp_opyt_4:\n      '#type': textarea\n      '#title': 'От кого из воспитанников поступали благодарности или положительный отзывы за их менторство?'\n  emp_vedenie_proektov_s_nula:\n    '#type': webform_section\n    '#title': \"Ведение\\_проектов с нуля\"\n    '#description': \"Здесь нужно указать названия, длительность, суть проектов, подпроектов, модулей. Формального определения &quot;модуля&quot; не существует, так что указывай все, что ты считаешь самостоятельно разработанным (полностью или же частично) модулем, подсистемой или подпроектом. Постарайся указать, в чем состоит задача созданного модуля, какие сложности возникли при создании, какие технические решения пришлось принять.<br />\\nНазови также имена менеджеров или тим-лидеров, которые могли мы подтвердить/дополнить твою информацию.\"\n    '#title_tag': h3\n    emp_vedenie_proektov_s_nula_1:\n      '#type': textarea\n      '#title': 'Какие модули или подпроекты \"с нуля\" размером не менее 2 челомесяцев ты создавал (в качестве единственного или ведущего специалиста)?'\n      '#default_value': '[current-user:uid]'\n    emp_vedenie_proektov_s_nula_2:\n      '#type': textarea\n      '#title': 'Какие модули или подпроекты \"с нуля\" размером не менее 12 челомесяцев ты создавал (в качестве единственного или ведущего специалиста)?'\n    emp_vedenie_proektov_s_nula_3:\n      '#type': textarea\n      '#title': 'Какие отдельные проекты \"с нуля\" размером не менее 6 челомесяцев ты стартовал (в качестве единственного или ведущего специалиста)?'\n    emp_vedenie_proektov_s_nula_4:\n      '#type': textarea\n      '#title': 'Какие отдельные проекты \"с нуля\" размером не менее 24 челомесяцев ты стартовал (в качестве единственного или ведущего специалиста)?'\n    emp_vedenie_proektov_s_nula_6:\n      '#type': textarea\n      '#title': \"Какие отдельные проекты \\\"с нуля\\\" размером не\\_\\_менее\\_60 челомесяцев ты стартовал (в качестве единственного или ведущего специалиста)?\"\n    emp_vedenie_proektov_s_nula_7:\n      '#type': textarea\n      '#title': \"Какие проекты размером не менее 24 челомесяцев ты создавал с последующей работой на всех стадиях, включая успешное завершение проекта (в качестве единственного или ведущего специалиста)?\\_\"\n    emp_vedenie_proektov_s_nula_5:\n      '#type': textarea\n      '#title': \"Какие сложные проектные\\_решения,\\_способные\\_привести впоследствии к\\_существенным переработкам или проблемам с\\_клиентами, тебе приходилось принимать?\"\n  emp_audit:\n    '#type': webform_section\n    '#title': Аудит\n    '#description': 'Нужны детали &ndash; что именно было сделано по аудиту. Какие технические специалисты могут подтвердить факт аудита. Перечисли проекты, недавно работая на которых, ты принимал участие в code review процессе. На базе каких инструментов он был построен (Crucible, BitBucket, GitHub)?'\n    '#title_tag': h3\n    emp_audit_1:\n      '#type': textarea\n      '#title': 'На каких проектах есть отзывы со стороны техлидера или техкора по твоей несомненной полезности при выполнении какого-либо аудита?'\n    emp_audit_2:\n      '#type': textarea\n      '#title': \"На каких проектах ты проводил какой-либо аудит кода с любыми отчетами в произвольной форме (включая комментарии\\_pull-request-ам)?\"\n    emp_audit_3:\n      '#type': textarea\n      '#title': 'На каких проектах есть отзывы со стороны техлидера или техкора по твоей несомненной полезности при выполнении всестороннего, детального аудита полного проекта?'\n    emp_audit_4:\n      '#type': textarea\n      '#title': 'На каких проектах ты проводил полный детальный аудит всего проекта с созданием пригодных для передачи третьим лицам отчетов (детальных, полных, последовательных, единообразных)?'\n      '#description': '<em>Одним code review умение аудита не ограничивается. Доводилось ли тебе проводить формальный (и не очень) аудит всего проекта или отдельного его модуля? Если да, то в какой форме ты оформлял результаты такого аудита (документ, сводная таблица, письмо, запомнил)? Что это был за проект: название, кто разрабатывал, каков размер. Составить годный отчет довольно тяжело, в этом деле очень помогают checklist-ы. Какими checklist-ами ты пользуешься при проведении аудита или code review?</em>'\n    emp_audit_5:\n      '#type': textarea\n      '#title': 'На каких проектах без исходного кода ты проводил полный детальный аудит всего проекта с  созданием пригодных для передачи третьим лицам отчетов (детальных, полных, последовательных, единообразных)?'\nemp_otzyvy_rfx_angliiskii_refactoring:\n  '#type': webform_wizard_page\n  '#title': 'Отзывы, RFX, английский, refactoring'\n  '#access_create_roles':\n    - administrator\n    - employee\n  '#access_update_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#prev_button_label': Назад\n  '#next_button_label': Далее\n  emp_otzyvy_klientov:\n    '#type': webform_section\n    '#title': 'Отзывы клиентов'\n    '#description': 'Отзывы могли быть даны в скайпе, в устной форме (на стенд-апах, например) &ndash; их тоже нужно указывать. Общие отзывы на команду также засчитываются.'\n    '#title_tag': h3\n    emp_otzyvy_klientov_1:\n      '#type': textarea\n      '#title': 'Какие конкретно отзывы на твою работу на каких проектах от кого конкретно зафиксированы?'\n  emp_rfx:\n    '#type': webform_section\n    '#title': RFX\n    '#description': 'Необходимо краткое пояснение каждого opportunity (количество раз, роль, объем, успешность участия в presale работах).'\n    '#title_tag': h3\n    emp_rfx_1:\n      '#type': textarea\n      '#title': 'Какие opportunity ты обрабатывал?'\n    emp_rfx_2:\n      '#type': textarea\n      '#title': 'Какие opportunity ты обрабатывал, в которых он являлся автором основной содержательной части?'\n    emp_rfx_3:\n      '#type': textarea\n      '#title': \"Какие выигранные opportunity размером более 10 челолет ты обрабатывал, в которых ты являлся ведущим автором\\_технической\\_части?\"\n    emp_rfx_4:\n      '#type': textarea\n      '#title': \"Какие выигранные opportunity размером более 20 челолет ты обрабатывал, в которых ты являлся ведущим автором\\_технической\\_части?\"\n  emp_angliiskii:\n    '#type': webform_section\n    '#title': Английский\n    '#title_tag': h3\n    emp_angliiskii_1:\n      '#type': textarea\n      '#title': 'На каких проектах ты работал с технической документацией на английском языке?'\n    emp_angliiskii_2:\n      '#type': textarea\n      '#title': 'На каких проектах ты создавал техническую документацию на английском языке?'\n    emp_angliiskii_3:\n      '#type': textarea\n      '#title': 'На каких проектах ты успешно проходил техническое собеседование на английском языке?'\n    emp_angliiskii_4:\n      '#type': textarea\n      '#title': 'На каких проектах ты общался лично с клиентами на английском языке?'\n    emp_angliiskii_5:\n      '#type': textarea\n      '#title': 'Где и перед какой аудиторией ты публично выступал на английском языке?'\n  emp_refactoring_legacy:\n    '#type': webform_section\n    '#title': 'Refactoring, legacy'\n    '#description': 'Необходимо указать, что конкретно подвергалось рефакторингу, с какой целью, к чему в результате привело. Укажи технических специалистов, которые могли бы подтвердить это. Если на проекте есть правила и процессы, касающиеся работы с legacy кодом, иснтрументы мониторинга технического долга &ndash; обязательно напиши об этом.'\n    '#title_tag': h3\n    emp_refactoring_legacy_1:\n      '#type': textarea\n      '#title': 'На каких проектах ты занимался рефакторингом собственного кода, за счет которого было зафиксировано сокращение техдолга?'\n    emp_refactoring_legacy_2:\n      '#type': textarea\n      '#title': 'На каких проектах ты занимался рефакторингом чужого кода, за счет которого было зафиксировано сокращение техдолга?'\n    emp_refactoring_legacy_3:\n      '#type': textarea\n      '#title': \"На каких проектах ты\\_занимался рефакторингом собственного кода, за счет которого было зафиксировано сокращение техдолга? На каких проектах ты\\_проводил рефакторинг всего кода проекта?\"\n    emp_refactoring_legacy_4:\n      '#type': textarea\n      '#title': 'На каких проектах ты проводил рефакторинг legacy-кода с зафиксированной полезностью со стороны техкора или техлида?'\n    emp_refactoring_legacy_5:\n      '#type': textarea\n      '#title': 'На каких проектах ты проводил рефакторинг всего кода проекта по собственной инициативе в целях поддержания единообразия с новым кодом в legacy системе?'\n    emp_refactoring_legacy_6:\n      '#type': textarea\n      '#title': \"На каких проектах\\_\\_ты внедрил эффективную схему работы с legacy кодом, направленную на уменьшение техдолга и поддержание единообразия с новым кодом в legacy системе?\"\nemp_krugozor_proektirovanie_znania_i_praktiki_:\n  '#type': webform_wizard_page\n  '#title': 'Кругозор, проектирование, знания и практики '\n  '#access_create_roles':\n    - administrator\n    - employee\n  '#access_update_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#prev_button_label': Назад\n  '#next_button_label': Далее\n  emp_krugozor:\n    '#type': webform_section\n    '#title': Кругозор\n    '#description': '<strong>Укажи языки, платформы, технологии, которые ты использовал. Не пренебрегай версионностью (например, </strong><strong>php</strong><strong> 7.1, </strong><strong>Angular</strong><strong> 2).</strong>'\n    '#title_tag': h3\n    emp_krugozor_1:\n      '#type': textarea\n      '#title': \"Какие\\_языки программирования\\_и на каких проектах\\_ты\\_использовал?\"\n    emp_krugozor_2:\n      '#type': textarea\n      '#title': \"Какие\\_технологии\\_и на каких проектах\\_ты\\_использовал?\"\n    emp_krugozor_3:\n      '#type': textarea\n      '#title': \"Какие\\_крупные бизнес-продукты (SharePoint, SAP, Salesforce)\\_и на каких проектах\\_ты\\_использовал?\"\n    emp_krugozor_4:\n      '#type': textarea\n      '#title': \"Какие\\_типы решений (Web, Desktop, Mobile)\\_и на каких проектах\\_ты\\_создавал?\"\n  emp_proektirovanie:\n    '#type': webform_section\n    '#title': Проектирование\n    '#title_tag': h3\n    emp_proektirovanie_1:\n      '#type': textarea\n      '#title': \"Какие отзывы техкора или техлида, подтверждающие, что\\_ты\\_осознанно применяешь шаблоны проектирования для удовлетворения явно определенных и доведенных до\\_него\\_функциональных и нефункциональных требований, зафиксированы?\"\n    emp_proektirovanie_2:\n      '#type': textarea\n      '#title': \"Какие отзывы техкора или техлида, подтверждающие, что ты применяешь шаблоны проектирования для удовлетворения самостоятельно\\_выявленных\\_функциональных и нефункциональных требований, зафиксированы?\"\n    emp_proektirovanie_3:\n      '#type': textarea\n      '#title': 'На каких проектах ты единолично разрабатывал архитектуру модуля или подпроекта с явным определением целевых требований? Расскажи кратко о сути.'\n    emp_proektirovanie_4:\n      '#type': textarea\n      '#title': \"На каких проектах ты единолично разрабатывал архитектуру проекта с явным определением целевых требований,\\_оформленных\\_в виде пригодных к передаче заказчику документов, с согласованием компромиссов со всеми заинтересованными лицами?\"\n  emp_issledovania:\n    '#type': webform_section\n    '#title': Исследования\n    '#description': 'Это могут быть мелкие задачи на инвестигейт конкретной проблемы на проекте и путей ее решения, а также задачи на исследование новых технологий, библиотек, решений и проч. Постарайся описать суть задачи и время, потраченное на ее решение.'\n    '#title_tag': h3\n    emp_issledovania_1:\n      '#type': textarea\n      '#title': 'На каких проектах ты выполнял исследовательские задачи, в каком количестве и объеме (привести отзывы техкора, техлида или менеджера)?'\n    emp_issledovania_2:\n      '#type': textarea\n      '#title': 'Какие Proof of concept для клиентов ты выполнял на новых технологиях или библиотеках?'\n    emp_issledovania_3:\n      '#type': textarea\n      '#title': 'Какие новые направления или центры компетенции ты создал в компании?'\n  emp_praktiki:\n    '#type': webform_section\n    '#title': Практики\n    '#description': 'SDLC - Software development lifecycle. Примеры практик и инструментов: SOLID, Version Control, CI, TDD, BDD, DDD, code review.'\n    '#title_tag': h3\n    emp_praktiki_1:\n      '#type': textarea\n      '#title': \"На каких проектах ты использовал принятые в\\_компании\\_SDLC* практики и инструменты?\"\n    emp_praktiki_2:\n      '#type': textarea\n      '#title': \"На каких проектах ты вносил изменения в настройки принятых в\\_компании\\_SDLC\\_практик\\_и\\_инструментов\\_или\\_добавлял\\_единичные новые практики?\"\n    emp_praktiki_4:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно внедрял новые практики и инструменты?'\n    emp_praktiki_3:\n      '#type': textarea\n      '#title': \"На каких проектах ты продемонстрировал продвинутые навыки работы с принятыми в\\_компании\\_SDLC практиками и инструментами?\"\n    emp_praktiki_5:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно внедрял и длительный срок отслеживал использование новых практик и инструментов?'\n  emp_ekspertnye_znania:\n    '#type': webform_section\n    '#title': 'Экспертные знания'\n    '#title_tag': h3\n    emp_ekspertnye_znania_1:\n      '#type': textarea\n      '#title': \"Какие отзывы техлидов или\\_техкоров\\_фиксируют наличие экспертных знаний у тебя?\\_По каким областям?\"\n    emp_ekspertnye_znania_2:\n      '#type': textarea\n      '#title': 'Какие сертификаты ты имеешь?'\n    emp_ekspertnye_znania_3:\n      '#type': textarea\n      '#title': 'На какие проекты ты привлекался в роли техэксперта?'\nemp_samostoatelnost_iniciativnost_samoobrazovanie_i_prezentacii:\n  '#type': webform_wizard_page\n  '#title': 'Самостоятельность, инициативность, самообразование и презентации'\n  '#access_create_roles':\n    - administrator\n    - employee\n  '#access_update_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - employee\n    - technical_expert\n    - hr\n  '#prev_button_label': Назад\n  '#next_button_label': Далее\n  emp_samostoatelnost:\n    '#type': webform_section\n    '#title': Самостоятельность\n    '#title_tag': h3\n    emp_samostoatelnost_1:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно выполнял задачи объемом не менее 8 часов?'\n    emp_samostoatelnost_2:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно выполнял задачи объемом не менее 40 часов?'\n    emp_samostoatelnost_3:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно выполнял задачи объемом не менее 3 месяцев (в сумме)?'\n    emp_samostoatelnost_4:\n      '#type': textarea\n      '#title': 'На каких проектах ты самостоятельно выполнял задачи с заблаговременным информированием о проблемах? На каких проектах ты не сообщил вовремя о возникших проблемах?'\n    emp_samostoatelnost_5:\n      '#type': textarea\n      '#title': 'На каких проектах ты распределял задачи для других суммарным объемом более 6 челомесяцев?'\n    emp_samostoatelnost_6:\n      '#type': textarea\n      '#title': 'На каких проектах ты распределял задачи для других суммарным объемом более 12 челомесяцев?'\n    emp_samostoatelnost_7:\n      '#type': textarea\n      '#title': 'Для какого числа людей ты распределял задачи?'\n  emp_iniciativnost:\n    '#type': webform_section\n    '#title': Инициативность\n    '#title_tag': h3\n    emp_iniciativnost_1:\n      '#type': textarea\n      '#title': \"На каких\\_проектах ты\\_предложил\\_принятый\\_впоследствии рефакторинг, использование новой библиотеки, проч. объемом не менее\\_\\_челодня? В чем заключалась суть предложения?\"\n    emp_iniciativnost_2:\n      '#type': textarea\n      '#title': \"На каких\\_проектах ты\\_предложил\\_принятый\\_впоследствии рефакторинг, использование новой библиотеки, проч. объемом не менее 5\\_\\_челодней? В чем заключалась суть предложения?\"\n    emp_iniciativnost_3:\n      '#type': textarea\n      '#title': \"На каких\\_проектах ты\\_предложил\\_принятый\\_впоследствии рефакторинг, использование новой библиотеки, проч. объемом не менее 15\\_\\_челодней? В чем заключалась суть предложения?\"\n    emp_iniciativnost_4:\n      '#type': textarea\n      '#title': 'Какие отзывы техлидов или техкоров о твоей инициативности зафиксированы?'\n    emp_iniciativnost_5:\n      '#type': textarea\n      '#title': 'Какие предложения для не своих проектов ты внёс?'\n  emp_samoobrazovanie:\n    '#type': webform_section\n    '#title': Самообразование\n    '#title_tag': h3\n    emp_samoobrazovanie_1:\n      '#type': textarea\n      '#title': \"Какие отзывы техлида или техкора подтверждают, что\\_ты\\_любознателен, постоянно задаешь вопросы \\\"как\\\" и \\\"почему\\\"?\"\n    emp_samoobrazovanie_2:\n      '#type': textarea\n      '#title': \"В каких случаях\\_и на каких проектах ты\\_вносил полезные предложения об использовании новых библиотек, фреймворков,\\_\\_серверов, технологий\\_и\\_т.д.,\\_которые в итоге были приняты к\\_использованию?\"\n    emp_samoobrazovanie_3:\n      '#type': textarea\n      '#title': \"На каких проектах ты отвечал за успешную миграцию/модернизацию проекта, как то: переход на новую версию или\\_другую платформу, язык, фреймворк, сервер и т.д. (был\\_инициатором,\\_основным\\_исполнителем\\_или просто\\_исполнителем)?\"\n    emp_samoobrazovanie_4:\n      '#type': textarea\n      '#title': \"Какие проекты были выиграны благодаря\\_наличию специфических/глубоких/обширных знаний у\\_тебя?\"\n  emp_prezentacii:\n    '#type': webform_section\n    '#title': Презентации\n    '#title_tag': h3\n    emp_prezentacii_1:\n      '#type': textarea\n      '#title': 'На каких проектах ты проводил demo для клиентов при помощи других?'\n    emp_prezentacii_2:\n      '#type': textarea\n      '#title': 'На каких проектах ты проводил demo для клиентов самостоятельно?'\n    emp_prezentacii_3:\n      '#type': textarea\n      '#title': 'В каких случаях ты проводил доклад/выступление более 4 часов на техническую тематику перед более чем 100 людьми?'\n    emp_prezentacii_4:\n      '#type': textarea\n      '#title': 'В каких случаях ты проводил доклад/выступление более 8 часов на техническую тематику перед более чем 500 людьми?'\n    emp_prezentacii_5:\n      '#type': textarea\n      '#title': \"Какие отзывы про твои доклады/выступления\\_зафиксированы?\"\nteam_vedenie_proektov_audit_otzyvy:\n  '#type': webform_wizard_page\n  '#title': \"Ведение\\_проектов, аудит, отзывы\"\n  '#access_create_roles':\n    - administrator\n    - team_lider\n  '#access_update_roles':\n    - administrator\n    - team_lider\n    - technical_expert\n    - hr\n  '#access_view_roles':\n    - administrator\n    - team_lider\n    - technical_expert\n    - hr\n  '#prev_button_label': Назад\n  '#next_button_label': Далее\n  team_vedenie_proektov_s_nula:\n    '#type': webform_section\n    '#title': \"Ведение\\_проектов с нуля\"\n    '#description': 'Здесь нужно указать названия, длительность, суть проектов, подпроектов, модулей.'\n    '#title_tag': h3\n    team_vedenie_proektov_s_nula_1:\n      '#type': textarea\n      '#title': 'Какие модули или подпроекты \"с нуля\" размером не менее 2 челомесяцев создавал сотрудник (в качестве единственного или ведущего специалиста)?'\n    team_vedenie_proektov_s_nula_2:\n      '#type': textarea\n      '#title': 'Какие модули или подпроекты \"с нуля\" размером не менее 12 челомесяцев создавал сотрудник (в качестве единственного или ведущего специалиста)?'\n    team_vedenie_proektov_s_nula_3:\n      '#type': textarea\n      '#title': 'Какие отдельные проекты \"с нуля\" размером не менее 6 челомесяцев стартовал сотрудник (в качестве единственного или ведущего специалиста)?'\n    team_vedenie_proektov_s_nula_4:\n      '#type': textarea\n      '#title': 'Какие отдельные проекты \"с нуля\" размером не менее 24 челомесяцев стартовал сотрудник (в качестве единственного или ведущего специалиста)?'\n    team_vedenie_proektov_s_nula_5:\n      '#type': textarea\n      '#title': \"Какие отдельные проекты \\\"с нуля\\\" размером не\\_ менее\\_60 челомесяцев стартовал сотрудник (в качестве единственного или ведущего специалиста)?\"\n    team_vedenie_proektov_s_nula_6:\n      '#type': textarea\n      '#title': \"Какие проекты размером не менее 24 челомесяцев сотрудник создавал с последующей работой на всех стадиях, включая успешное завершение проекта (в качестве единственного или ведущего специалиста)?\\_\"\n    team_vedenie_proektov_s_nula_7:\n      '#type': textarea\n      '#title': \"Какие сложные проектные\\_решения,\\_ способные привести впоследствии к\\_существенным переработкам или проблемам с\\_клиентами, приходилось принимать сотруднику?\"\n"
+css: ''
+javascript: ''
+settings:
+  ajax: false
+  ajax_scroll_top: form
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  form_submit_once: false
+  form_exception_message: ''
+  form_open_message: ''
+  form_close_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_reset: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_required: false
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_login: false
+  form_login_message: ''
+  submission_label: ''
+  submission_log: true
+  submission_user_columns: {  }
+  submission_login: true
+  submission_login_message: 'Доступ к анкете запрещен'
+  submission_exception_message: ''
+  submission_locked_message: ''
+  autofill: true
+  autofill_message: ''
+  autofill_excluded_elements:
+    id_sotrudnika: id_sotrudnika
+    name_sotrudnika: name_sotrudnika
+    email_sotrudnika: email_sotrudnika
+    id_timlida: id_timlida
+    name_timlida: name_timlida
+    email_timlida: email_timlida
+    team_entity_sotrudnik: team_entity_sotrudnik
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_start_label: ''
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_track: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  confirmation_type: page
+  confirmation_title: ''
+  confirmation_message: ''
+  confirmation_url: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  token_update: true
+access:
+  create:
+    roles:
+      - administrator
+      - employee
+      - team_lider
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles:
+      - administrator
+      - employee
+      - team_lider
+      - technical_expert
+      - hr
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles:
+      - technical_expert
+      - hr
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles:
+      - administrator
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles:
+      - administrator
+      - employee
+      - team_lider
+      - technical_expert
+      - hr
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles:
+      - administrator
+      - employee
+      - team_lider
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles:
+      - administrator
+    users: {  }
+    permissions: {  }
+handlers:
+  scheduled_email:
+    id: scheduled_email
+    label: 'Отравка уведомления о создании анкеты (сотрудник  создает)'
+    handler_id: scheduled_email
+    status: true
+    conditions:
+      disabled:
+        ':input[name="id_sotrudnika"]':
+          empty: true
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: m.pevnev@itransition.com
+      to_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      from_mail: default
+      from_options: {  }
+      from_name: '[current-user:account-name]'
+      subject: default
+      body: '[webform_submission:update-url]'
+      excluded_elements:
+        id_sotrudnika: id_sotrudnika
+        name_sotrudnika: name_sotrudnika
+        id_timlida: id_timlida
+        name_timlida: name_timlida
+        team_entity_sotrudnik: team_entity_sotrudnik
+        emp_opyt_1: emp_opyt_1
+        emp_opyt_2: emp_opyt_2
+        emp_opyt_3: emp_opyt_3
+        emp_opyt_4: emp_opyt_4
+        emp_vedenie_proektov_s_nula_1: emp_vedenie_proektov_s_nula_1
+        emp_vedenie_proektov_s_nula_2: emp_vedenie_proektov_s_nula_2
+        emp_vedenie_proektov_s_nula_3: emp_vedenie_proektov_s_nula_3
+        emp_vedenie_proektov_s_nula_4: emp_vedenie_proektov_s_nula_4
+        emp_vedenie_proektov_s_nula_6: emp_vedenie_proektov_s_nula_6
+        emp_vedenie_proektov_s_nula_7: emp_vedenie_proektov_s_nula_7
+        emp_vedenie_proektov_s_nula_5: emp_vedenie_proektov_s_nula_5
+        emp_audit_1: emp_audit_1
+        emp_audit_2: emp_audit_2
+        emp_audit_3: emp_audit_3
+        emp_audit_4: emp_audit_4
+        emp_audit_5: emp_audit_5
+        emp_otzyvy_klientov_1: emp_otzyvy_klientov_1
+        emp_rfx_1: emp_rfx_1
+        emp_rfx_2: emp_rfx_2
+        emp_rfx_3: emp_rfx_3
+        emp_rfx_4: emp_rfx_4
+        emp_angliiskii_1: emp_angliiskii_1
+        emp_angliiskii_2: emp_angliiskii_2
+        emp_angliiskii_3: emp_angliiskii_3
+        emp_angliiskii_4: emp_angliiskii_4
+        emp_angliiskii_5: emp_angliiskii_5
+        emp_refactoring_legacy_1: emp_refactoring_legacy_1
+        emp_refactoring_legacy_2: emp_refactoring_legacy_2
+        emp_refactoring_legacy_3: emp_refactoring_legacy_3
+        emp_refactoring_legacy_4: emp_refactoring_legacy_4
+        emp_refactoring_legacy_5: emp_refactoring_legacy_5
+        emp_refactoring_legacy_6: emp_refactoring_legacy_6
+        emp_krugozor_1: emp_krugozor_1
+        emp_krugozor_2: emp_krugozor_2
+        emp_krugozor_3: emp_krugozor_3
+        emp_krugozor_4: emp_krugozor_4
+        emp_proektirovanie_1: emp_proektirovanie_1
+        emp_proektirovanie_2: emp_proektirovanie_2
+        emp_proektirovanie_3: emp_proektirovanie_3
+        emp_proektirovanie_4: emp_proektirovanie_4
+        emp_issledovania_1: emp_issledovania_1
+        emp_issledovania_2: emp_issledovania_2
+        emp_issledovania_3: emp_issledovania_3
+        emp_praktiki_1: emp_praktiki_1
+        emp_praktiki_2: emp_praktiki_2
+        emp_praktiki_4: emp_praktiki_4
+        emp_praktiki_3: emp_praktiki_3
+        emp_praktiki_5: emp_praktiki_5
+        emp_ekspertnye_znania_1: emp_ekspertnye_znania_1
+        emp_ekspertnye_znania_2: emp_ekspertnye_znania_2
+        emp_ekspertnye_znania_3: emp_ekspertnye_znania_3
+        emp_samostoatelnost_1: emp_samostoatelnost_1
+        emp_samostoatelnost_2: emp_samostoatelnost_2
+        emp_samostoatelnost_3: emp_samostoatelnost_3
+        emp_samostoatelnost_4: emp_samostoatelnost_4
+        emp_samostoatelnost_5: emp_samostoatelnost_5
+        emp_samostoatelnost_6: emp_samostoatelnost_6
+        emp_samostoatelnost_7: emp_samostoatelnost_7
+        emp_iniciativnost_1: emp_iniciativnost_1
+        emp_iniciativnost_2: emp_iniciativnost_2
+        emp_iniciativnost_3: emp_iniciativnost_3
+        emp_iniciativnost_4: emp_iniciativnost_4
+        emp_iniciativnost_5: emp_iniciativnost_5
+        emp_samoobrazovanie_1: emp_samoobrazovanie_1
+        emp_samoobrazovanie_2: emp_samoobrazovanie_2
+        emp_samoobrazovanie_3: emp_samoobrazovanie_3
+        emp_samoobrazovanie_4: emp_samoobrazovanie_4
+        emp_prezentacii_1: emp_prezentacii_1
+        emp_prezentacii_2: emp_prezentacii_2
+        emp_prezentacii_3: emp_prezentacii_3
+        emp_prezentacii_4: emp_prezentacii_4
+        emp_prezentacii_5: emp_prezentacii_5
+        team_vedenie_proektov_s_nula_1: team_vedenie_proektov_s_nula_1
+        team_vedenie_proektov_s_nula_2: team_vedenie_proektov_s_nula_2
+        team_vedenie_proektov_s_nula_3: team_vedenie_proektov_s_nula_3
+        team_vedenie_proektov_s_nula_4: team_vedenie_proektov_s_nula_4
+        team_vedenie_proektov_s_nula_5: team_vedenie_proektov_s_nula_5
+        team_vedenie_proektov_s_nula_6: team_vedenie_proektov_s_nula_6
+        team_vedenie_proektov_s_nula_7: team_vedenie_proektov_s_nula_7
+      ignore_access: false
+      exclude_empty: true
+      html: true
+      attachments: false
+      twig: false
+      debug: false
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      send: '[date:html_date]'
+      days: 0
+      unschedule: false
+  scheduled_email_1:
+    id: scheduled_email
+    label: 'Отравка уведомления о создании анкеты (тимлид  создает)'
+    handler_id: scheduled_email_1
+    status: true
+    conditions:
+      disabled:
+        ':input[name="id_timlida"]':
+          empty: true
+    weight: 1
+    settings:
+      states:
+        - completed
+      to_mail: m.pevnev@itransition.com
+      to_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      from_mail: default
+      from_options: {  }
+      from_name: '[current-user:account-name]'
+      subject: default
+      body: '[webform_submission:update-url]'
+      excluded_elements:
+        id_sotrudnika: id_sotrudnika
+        name_sotrudnika: name_sotrudnika
+        id_timlida: id_timlida
+        name_timlida: name_timlida
+        team_entity_sotrudnik: team_entity_sotrudnik
+        emp_opyt_1: emp_opyt_1
+        emp_opyt_2: emp_opyt_2
+        emp_opyt_3: emp_opyt_3
+        emp_opyt_4: emp_opyt_4
+        emp_vedenie_proektov_s_nula_1: emp_vedenie_proektov_s_nula_1
+        emp_vedenie_proektov_s_nula_2: emp_vedenie_proektov_s_nula_2
+        emp_vedenie_proektov_s_nula_3: emp_vedenie_proektov_s_nula_3
+        emp_vedenie_proektov_s_nula_4: emp_vedenie_proektov_s_nula_4
+        emp_vedenie_proektov_s_nula_6: emp_vedenie_proektov_s_nula_6
+        emp_vedenie_proektov_s_nula_7: emp_vedenie_proektov_s_nula_7
+        emp_vedenie_proektov_s_nula_5: emp_vedenie_proektov_s_nula_5
+        emp_audit_1: emp_audit_1
+        emp_audit_2: emp_audit_2
+        emp_audit_3: emp_audit_3
+        emp_audit_4: emp_audit_4
+        emp_audit_5: emp_audit_5
+        emp_otzyvy_klientov_1: emp_otzyvy_klientov_1
+        emp_rfx_1: emp_rfx_1
+        emp_rfx_2: emp_rfx_2
+        emp_rfx_3: emp_rfx_3
+        emp_rfx_4: emp_rfx_4
+        emp_angliiskii_1: emp_angliiskii_1
+        emp_angliiskii_2: emp_angliiskii_2
+        emp_angliiskii_3: emp_angliiskii_3
+        emp_angliiskii_4: emp_angliiskii_4
+        emp_angliiskii_5: emp_angliiskii_5
+        emp_refactoring_legacy_1: emp_refactoring_legacy_1
+        emp_refactoring_legacy_2: emp_refactoring_legacy_2
+        emp_refactoring_legacy_3: emp_refactoring_legacy_3
+        emp_refactoring_legacy_4: emp_refactoring_legacy_4
+        emp_refactoring_legacy_5: emp_refactoring_legacy_5
+        emp_refactoring_legacy_6: emp_refactoring_legacy_6
+        emp_krugozor_1: emp_krugozor_1
+        emp_krugozor_2: emp_krugozor_2
+        emp_krugozor_3: emp_krugozor_3
+        emp_krugozor_4: emp_krugozor_4
+        emp_proektirovanie_1: emp_proektirovanie_1
+        emp_proektirovanie_2: emp_proektirovanie_2
+        emp_proektirovanie_3: emp_proektirovanie_3
+        emp_proektirovanie_4: emp_proektirovanie_4
+        emp_issledovania_1: emp_issledovania_1
+        emp_issledovania_2: emp_issledovania_2
+        emp_issledovania_3: emp_issledovania_3
+        emp_praktiki_1: emp_praktiki_1
+        emp_praktiki_2: emp_praktiki_2
+        emp_praktiki_4: emp_praktiki_4
+        emp_praktiki_3: emp_praktiki_3
+        emp_praktiki_5: emp_praktiki_5
+        emp_ekspertnye_znania_1: emp_ekspertnye_znania_1
+        emp_ekspertnye_znania_2: emp_ekspertnye_znania_2
+        emp_ekspertnye_znania_3: emp_ekspertnye_znania_3
+        emp_samostoatelnost_1: emp_samostoatelnost_1
+        emp_samostoatelnost_2: emp_samostoatelnost_2
+        emp_samostoatelnost_3: emp_samostoatelnost_3
+        emp_samostoatelnost_4: emp_samostoatelnost_4
+        emp_samostoatelnost_5: emp_samostoatelnost_5
+        emp_samostoatelnost_6: emp_samostoatelnost_6
+        emp_samostoatelnost_7: emp_samostoatelnost_7
+        emp_iniciativnost_1: emp_iniciativnost_1
+        emp_iniciativnost_2: emp_iniciativnost_2
+        emp_iniciativnost_3: emp_iniciativnost_3
+        emp_iniciativnost_4: emp_iniciativnost_4
+        emp_iniciativnost_5: emp_iniciativnost_5
+        emp_samoobrazovanie_1: emp_samoobrazovanie_1
+        emp_samoobrazovanie_2: emp_samoobrazovanie_2
+        emp_samoobrazovanie_3: emp_samoobrazovanie_3
+        emp_samoobrazovanie_4: emp_samoobrazovanie_4
+        emp_prezentacii_1: emp_prezentacii_1
+        emp_prezentacii_2: emp_prezentacii_2
+        emp_prezentacii_3: emp_prezentacii_3
+        emp_prezentacii_4: emp_prezentacii_4
+        emp_prezentacii_5: emp_prezentacii_5
+        team_vedenie_proektov_s_nula_1: team_vedenie_proektov_s_nula_1
+        team_vedenie_proektov_s_nula_2: team_vedenie_proektov_s_nula_2
+        team_vedenie_proektov_s_nula_3: team_vedenie_proektov_s_nula_3
+        team_vedenie_proektov_s_nula_4: team_vedenie_proektov_s_nula_4
+        team_vedenie_proektov_s_nula_5: team_vedenie_proektov_s_nula_5
+        team_vedenie_proektov_s_nula_6: team_vedenie_proektov_s_nula_6
+        team_vedenie_proektov_s_nula_7: team_vedenie_proektov_s_nula_7
+      ignore_access: false
+      exclude_empty: true
+      html: true
+      attachments: false
+      twig: false
+      debug: false
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      send: '[date:html_date]'
+      days: 0
+      unschedule: false

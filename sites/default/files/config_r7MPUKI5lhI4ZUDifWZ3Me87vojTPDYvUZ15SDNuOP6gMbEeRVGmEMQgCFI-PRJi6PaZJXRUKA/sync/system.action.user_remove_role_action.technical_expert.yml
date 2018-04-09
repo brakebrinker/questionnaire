@@ -1,0 +1,14 @@
+uuid: 29695c82-5f25-4b62-8a57-7bb252f1e1c9
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.technical_expert
+  module:
+    - user
+id: user_remove_role_action.technical_expert
+label: 'Remove the Technical Expert role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: technical_expert
