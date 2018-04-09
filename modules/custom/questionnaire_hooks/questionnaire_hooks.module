@@ -19,7 +19,7 @@ function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, 
 
         //check for unauthorized users
         if (\Drupal::currentUser()->isAnonymous()) {
-            drupal_set_message('Доступ к анкете запрещен', 'error');
+            drupal_set_message(t('Access denied to this questionnaire.'), 'error');
             $form['#access'] = FALSE;
 
             $url = Url::fromRoute('<front>');
@@ -36,14 +36,14 @@ function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, 
 
             if (in_array("team_lider", $current_user_roles)) {
                 if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['id_timlida'] !== $current_user_id) {
-                    drupal_set_message('Доступ к анкете запрещен', 'error');
+                    drupal_set_message(t('Access denied to the questionnaire.'), 'error');
                     $form['#access'] = FALSE;
                 }
             }
 
             if (in_array("employee", $current_user_roles)) {
                 if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['team_entity_sotrudnik'] !== $current_user_id) {
-                    drupal_set_message('Доступ к анкете запрещен', 'error');
+                    drupal_set_message(t('Access denied to the questionnaire.'), 'error');
                     $form['#access'] = FALSE;
                 }
             }
@@ -54,7 +54,7 @@ function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, 
             $check_quest_msg = check_questionnaire_for_employee();
 
             if ($check_quest_msg) {
-                drupal_set_message(t($check_quest_msg), 'error');
+                drupal_set_message($check_quest_msg, 'error');
                 $form['#access'] = FALSE;
             }
         }
@@ -84,7 +84,7 @@ function questionnaire_hooks_form_show_message_teamdlead(&$form, FormStateInterf
     $check_quest_msg = check_questionnaire_for_teamlead($form_state->getValue('team_entity_sotrudnik'));
 
     if ($check_quest_msg) {
-        $form_state->setErrorByName('team_entity_sotrudnik', t($check_quest_msg));
+        $form_state->setErrorByName('team_entity_sotrudnik', $check_quest_msg);
     }
 }
 
@@ -94,7 +94,7 @@ function questionnaire_hooks_form_show_message_employee(&$form, FormStateInterfa
     $check_quest_msg = check_questionnaire_for_employee();
 
     if ($check_quest_msg) {
-        $form_state->setErrorByName('id_sotrudnika', t($check_quest_msg));
+        $form_state->setErrorByName('id_sotrudnika', $check_quest_msg);
     }
 }
 
@@ -150,35 +150,8 @@ function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_stat
     }
 
   }
-  // \Drupal::logger(' id_timlida')->notice('id_timlida 19 submit ');
+
 }
-
-// hook for webform_block (пока не использовать)
-//function questionnaire_hooks_block_view_webform_block_alter(array &$build, BlockPluginInterface $block) {
-//  if ($block->getBaseId() === 'webform_block') {
-//    $build['#pre_render'][] = '_questionnaire_hooks_block_webform_block_prerender';
-//  }
-//}
-
-// checking last create questionnaire (пока не использовать)
-//function _questionnaire_hooks_block_webform_block_prerender(array $build) {
-//    $current_user_id = \Drupal::currentUser()->id();
-//    $current_user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-//    $current_user_roles = \Drupal::currentUser()->getRoles();
-//
-//    $expired_questionnaire_date = time() - EXP_QUESTIONNAIRE_PERIOD;
-//
-//    print_r($current_user->get('field_select_users')->getValue());
-//
-//    if (in_array("employee", $current_user_roles)) {
-//        if (!empty($webform_update_url = check_questionnaire_for_employee($current_user_id, $expired_questionnaire_date))) {
-//            drupal_set_message(t('Вы уже заполняли анкету в ближайшие пол года. Можете отредактировать <a href="' . $webform_update_url . '">предыдущую анкету</a>.'), 'error');
-//            return;
-//        }
-//    }
-//
-//    return $build;
-//}
 
 // check last questionnare for current employee
 function check_questionnaire_for_employee() {
@@ -196,7 +169,10 @@ function check_questionnaire_for_employee() {
 
         if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_sotrudnika']) && !isset($_GET['token'])) {
             $webform_update_url = $webform_submission->getTokenUrl()->toString();
-            $returned_msg = 'Анкета уже создана. Перейдите по <a href="' . $webform_update_url . '">ссылке</a> для ее редактирования';
+            $t1 = t('The questionnaire is already created. Go to ');
+            $t2 = t('the link');
+            $t3 = t(' for edit it.');
+            $returned_msg = t($t1 . '<a href="' . $webform_update_url . '">' . $t2 . '</a>' . $t3);
         }
     }
 
@@ -209,7 +185,7 @@ function check_questionnaire_for_teamlead($employ_id) {
     $returned_msg = '';
 
     if (!isHisEmployee($employ_id)) {
-        $returned_msg = 'Этот сотрудник за вами не закреплен.';
+        $returned_msg = t('This employee is not assigned to you.');
     } else {
         $expired_date = time() - EXP_QUESTIONNAIRE_PERIOD;
 
@@ -219,13 +195,12 @@ function check_questionnaire_for_teamlead($employ_id) {
             $webform_submission = WebformSubmission::load($last_submission['sid']);
             $submission_data_fields = $webform_submission->getData();
 
-            if ($webform_submission->getCreatedTime() > $expired_date && empty($submission_data_fields['id_timlida'])) {
-                $webform_update_url = $webform_submission->getTokenUrl()->toString();
-                $returned_msg = 'Анкета для этого пользователя уже существует. Перейдите по <a href="' . $webform_update_url . '">ссылке</a> для ее заполнения.';
-            }
             if ($webform_submission->getCreatedTime() > $expired_date && !empty($submission_data_fields['id_timlida'])) {
                 $webform_update_url = $webform_submission->getTokenUrl()->toString();
-                $returned_msg = 'Вы уже заполняли анкету для этого пользователя. Можете перейти по <a href="' . $webform_update_url . '">ссылке</a> для ее редактирования.';
+                $t1 = t('You have already filled out a questionnaire for this user. You can go to ');
+                $t2 = t('the link');
+                $t3 = t(' for edit it.');
+                $returned_msg = t($t1 . '<a href="' . $webform_update_url . '">' . $t2 . '</a>' . $t3);
             }
         }
     }

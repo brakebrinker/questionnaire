@@ -18,17 +18,7 @@ use Drupal\user\Entity\User;
  * )
  */
 class QuestionnairesEmployeeBlock extends BlockBase {
-    /**
-     * {@inheritdoc}
-     */
 
-    /**
-     * {@inheritdoc}
-     *
-     * В Drupal 8 очень многое строится на renderable arrays и при отдаче
-     * из данной функции содержимого для страницы, мы также должны вернуть
-     * массив который спокойно пройдет через drupal_render().
-     */
     public function getListForEmployee() {
         $current_user_id = \Drupal::currentUser()->id();
         $webformSubmissionsList = [];
@@ -47,10 +37,7 @@ class QuestionnairesEmployeeBlock extends BlockBase {
                     'serial' => $webformSubmission->serial(),
                     'uuid' => $webformSubmission->uuid(),
                     'is_draft' => $webformSubmission->isDraft() ? true : false,
-                    // 'current_page' => $webformSubmission->getCurrentPageTitle(),
-                    // 'remote_addr' => $webformSubmission->getRemoteAddr(),
                     'submitted_by_id' => $webformSubmission->getOwnerId(),
-                    // 'completed' = WebformDateHelper::format($webform_submission->getCompletedTime()),
                     'created' => $webformSubmission->getCreatedTime(),
                     'changed' => $webformSubmission->getChangedTime(),
                     'sticky' => $webformSubmission->isSticky() ? true : false,
@@ -68,7 +55,7 @@ class QuestionnairesEmployeeBlock extends BlockBase {
         return $webformSubmissionsList;
     }
 
-    // получает имя тимлида по id сотрудника
+    // get name timlida by id
     public function getTimlId($emloyee_id) {
         $ids = \Drupal::entityQuery('user')
             ->condition('status', 1)
