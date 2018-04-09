@@ -6,71 +6,40 @@ use Drupal\webform\Entity\WebformSubmission;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-// use Drupal\user\Entity\User;
 
 const EXP_QUESTIONNAIRE_PERIOD = 15811200;// 15811200 - half of the year
 
 // hook for submition webform anketa_k_dkr
-function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function questionnaire_access_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
     if ($form_id == 'webform_submission_anketa_k_dkr_add_form') {
         $current_user_roles = \Drupal::currentUser()->getRoles();
         $current_user_id = \Drupal::currentUser()->id();
 
-        //check for unauthorized users
-        if (\Drupal::currentUser()->isAnonymous()) {
-            drupal_set_message(t('Access denied to this questionnaire.'), 'error');
-            $form['#access'] = FALSE;
+        checkUnauthorizedUsers($form);
 
-            $url = Url::fromRoute('<front>');
-            $response = new RedirectResponse($url->toString());
-            $response->send();
-        }
-
-        //checking the membership of the questionnaire to the user
         if (isset($_GET['token']) && !empty($_GET['token'])) {
-            $questionnaire_by_token = isHisQuestionnaireForUser($_GET['token']);
-
-            $questionnaire_entity = WebformSubmission::load($questionnaire_by_token['sid']);
-            $questionnaire_entity_fields = $questionnaire_entity->getData();
-
-            if (in_array("team_lider", $current_user_roles)) {
-                if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['id_timlida'] !== $current_user_id) {
-                    drupal_set_message(t('Access denied to the questionnaire.'), 'error');
-                    $form['#access'] = FALSE;
-                }
-            }
-
-            if (in_array("employee", $current_user_roles)) {
-                if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['team_entity_sotrudnik'] !== $current_user_id) {
-                    drupal_set_message(t('Access denied to the questionnaire.'), 'error');
-                    $form['#access'] = FALSE;
-                }
-            }
-        }
-
-        //check for employee
-        if (in_array("employee", $current_user_roles)) {
-            $check_quest_msg = check_questionnaire_for_employee();
-
-            if ($check_quest_msg) {
-                drupal_set_message($check_quest_msg, 'error');
+            if (!checkMembershipByToken($current_user_roles, $current_user_id, $_GET['token'])) {
                 $form['#access'] = FALSE;
             }
         }
 
+        if (!checkEmployeeAccess($current_user_roles)) {
+            $form['#access'] = FALSE;
+        }
+
         foreach (array_keys($form['actions']) as $action) {
             if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-                $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_validate';
+                $form['actions'][$action]['#validate'][] = 'questionnaire_access_form_validate';
 
                 //check for teamlead
-                if (in_array("team_lider", $current_user_roles)) {
-                    $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_show_message_teamdlead';
+                if (in_array('team_lider', $current_user_roles)) {
+                    $form['actions'][$action]['#validate'][] = 'questionnaire_access_form_show_message_teamdlead';
                 }
 
                 //check for employee
-                if (in_array("employee", $current_user_roles)) {
-                    $form['actions'][$action]['#validate'][] = 'questionnaire_hooks_form_show_message_employee';
+                if (in_array('employee', $current_user_roles)) {
+                    $form['actions'][$action]['#validate'][] = 'questionnaire_access_form_show_message_employee';
                 }
 
             }
@@ -78,8 +47,58 @@ function questionnaire_hooks_form_alter(&$form, FormStateInterface $form_state, 
     }
 }
 
+//check for unauthorized users
+function checkUnauthorizedUsers($form) {
+    if (\Drupal::currentUser()->isAnonymous()) {
+        drupal_set_message(t('Access denied to this questionnaire.'), 'error');
+        $form['#access'] = FALSE;
+
+        $url = Url::fromRoute('<front>');
+        $response = new RedirectResponse($url->toString());
+        $response->send();
+    }
+}
+
+//check access for employee
+function checkEmployeeAccess($form, $current_user_roles) {
+    if (in_array('employee', $current_user_roles)) {
+        $check_quest_msg = check_questionnaire_for_employee();
+
+        if ($check_quest_msg) {
+            drupal_set_message($check_quest_msg, 'error');
+            return false;
+        }
+    }
+
+    return true;
+}
+
+//checking the membership of the questionnaire to the user by token
+function checkMembershipByToken($current_user_roles, $current_user_id, $token) {
+    $questionnaire_by_token = isHisQuestionnaireForUser($token);
+
+    $questionnaire_entity = WebformSubmission::load($questionnaire_by_token['sid']);
+    $questionnaire_entity_fields = $questionnaire_entity->getData();
+
+    if (in_array('team_lider', $current_user_roles)) {
+        if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['id_timlida'] !== $current_user_id) {
+            drupal_set_message(t('Access denied to the questionnaire.'), 'error');
+            return false;
+        }
+    }
+
+    if (in_array('employee', $current_user_roles)) {
+        if ($questionnaire_entity->getOwnerId() !== $current_user_id && $questionnaire_entity_fields['team_entity_sotrudnik'] !== $current_user_id) {
+            drupal_set_message(t('Access denied to the questionnaire.'), 'error');
+            return false;
+        }
+    }
+
+    return true;
+}
+
 // show message for teamlead
-function questionnaire_hooks_form_show_message_teamdlead(&$form, FormStateInterface $form_state) {
+function questionnaire_access_form_show_message_teamdlead(&$form, FormStateInterface $form_state) {
 
     $check_quest_msg = check_questionnaire_for_teamlead($form_state->getValue('team_entity_sotrudnik'));
 
@@ -89,7 +108,7 @@ function questionnaire_hooks_form_show_message_teamdlead(&$form, FormStateInterf
 }
 
 // show message for employee
-function questionnaire_hooks_form_show_message_employee(&$form, FormStateInterface $form_state) {
+function questionnaire_access_form_show_message_employee(&$form, FormStateInterface $form_state) {
 
     $check_quest_msg = check_questionnaire_for_employee();
 
@@ -99,13 +118,13 @@ function questionnaire_hooks_form_show_message_employee(&$form, FormStateInterfa
 }
 
 // filling fields id_timlida and id_sotrudnika on submition webform
-function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_state) {
+function questionnaire_access_form_validate(&$form, FormStateInterface $form_state) {
   $user_roles = \Drupal::currentUser()->getRoles();
   $user_id = \Drupal::currentUser()->id();
   $user_name = \Drupal::currentUser()->getUsername();
   $user_email = \Drupal::currentUser()->getEmail();
 
-  if (in_array("team_lider", $user_roles)) {
+  if (in_array('team_lider', $user_roles)) {
     $filling_field_id_timlida = $form_state->getValue('id_timlida');
     $filling_field_name_timlida = $form_state->getValue('name_timlida');
     $filling_field_email_timlida = $form_state->getValue('email_timlida');
@@ -132,7 +151,7 @@ function questionnaire_hooks_form_validate(&$form, FormStateInterface $form_stat
     }
   }
 
-  if (in_array("employee", $user_roles)) {
+  if (in_array('employee', $user_roles)) {
     $filling_field_id_sotrudnika = $form_state->getValue('id_sotrudnika');
     $filling_field_name_sotrudnika = $form_state->getValue('name_sotrudnika');
     $filling_field_email_sotrudnika = $form_state->getValue('email_sotrudnika');

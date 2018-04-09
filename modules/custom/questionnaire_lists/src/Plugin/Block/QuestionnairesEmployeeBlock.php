@@ -47,7 +47,7 @@ class QuestionnairesEmployeeBlock extends BlockBase {
                     'name_teamlead' => $innerDataWebformSubmission['name_timlida'],
                     'token' => $webformSubmission->getToken(),
                     'update_url' => $webformSubmission->getTokenUrl()->toString(),
-                    'view_url' => str_replace("form", "webform", $webformSubmission->getSourceUrl()->toString())
+                    'view_url' => str_replace('form', 'webform', $webformSubmission->getSourceUrl()->toString())
                 );
 
         }

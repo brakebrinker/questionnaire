@@ -1,8 +1,8 @@
 # INFO: Комментарии указываются в yml через хэштег.
 # Название модуля (отображается в списке модулей).
-name: Questionnaire Hooks
+name: Questionnaire access check
 # Описание модуля. Пишется исключительно на английском.
-description: 'Questionnaire Hooks - hooks for questionnaire webform.'
+description: 'Questionnaire access check - checks user access to questionnaires.'
 # Объявляем что это модуль.
 type: module
 # Версия ядра для которого модуль.

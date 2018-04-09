@@ -38,10 +38,7 @@ class QuestionnairesTeamleadBlock extends BlockBase
                 'serial' => $webformSubmission->serial(),
                 'uuid' => $webformSubmission->uuid(),
                 'is_draft' => $webformSubmission->isDraft() ? true : false,
-                // 'current_page' => $webformSubmission->getCurrentPageTitle(),
-                // 'remote_addr' => $webformSubmission->getRemoteAddr(),
                 'submitted_by_id' => $webformSubmission->getOwnerId(),
-                // 'completed' = WebformDateHelper::format($webform_submission->getCompletedTime()),
                 'created' => $webformSubmission->getCreatedTime(),
                 'changed' => $webformSubmission->getChangedTime(),
                 'sticky' => $webformSubmission->isSticky() ? true : false,
@@ -52,7 +49,7 @@ class QuestionnairesTeamleadBlock extends BlockBase
                 'name_teamlead' => $innerDataWebformSubmission['name_timlida'],
                 'token' => $webformSubmission->getToken(),
                 'update_url' => $webformSubmission->getTokenUrl()->toString(),
-                'view_url' => str_replace("form", "webform", $webformSubmission->getSourceUrl()->toString())
+                'view_url' => str_replace('form', 'webform', $webformSubmission->getSourceUrl()->toString())
             );
         }
 
