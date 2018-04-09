@@ -16,7 +16,7 @@ function questionnaire_access_form_alter(&$form, FormStateInterface $form_state,
         $current_user_roles = \Drupal::currentUser()->getRoles();
         $current_user_id = \Drupal::currentUser()->id();
 
-        checkUnauthorizedUsers($form);
+        checkUnauthorizedUsers();
 
         if (isset($_GET['token']) && !empty($_GET['token'])) {
             if (!checkMembershipByToken($current_user_roles, $current_user_id, $_GET['token'])) {
@@ -48,10 +48,9 @@ function questionnaire_access_form_alter(&$form, FormStateInterface $form_state,
 }
 
 //check for unauthorized users
-function checkUnauthorizedUsers($form) {
+function checkUnauthorizedUsers() {
     if (\Drupal::currentUser()->isAnonymous()) {
         drupal_set_message(t('Access denied to this questionnaire.'), 'error');
-        $form['#access'] = FALSE;
 
         $url = Url::fromRoute('<front>');
         $response = new RedirectResponse($url->toString());
@@ -60,7 +59,7 @@ function checkUnauthorizedUsers($form) {
 }
 
 //check access for employee
-function checkEmployeeAccess($form, $current_user_roles) {
+function checkEmployeeAccess($current_user_roles) {
     if (in_array('employee', $current_user_roles)) {
         $check_quest_msg = check_questionnaire_for_employee();
 
@@ -125,46 +124,46 @@ function questionnaire_access_form_validate(&$form, FormStateInterface $form_sta
   $user_email = \Drupal::currentUser()->getEmail();
 
   if (in_array('team_lider', $user_roles)) {
-    $filling_field_id_timlida = $form_state->getValue('id_timlida');
-    $filling_field_name_timlida = $form_state->getValue('name_timlida');
-    $filling_field_email_timlida = $form_state->getValue('email_timlida');
-    $filling_field_email_sotrudnika_from_teamlead = $form_state->getValue('email_sotrudnika');
-    $filling_field_entity_sotrudnika = $form_state->getValue('team_entity_sotrudnik');
+    $teamlead_id = $form_state->getValue('id_timlida');
+    $teamlead_name = $form_state->getValue('name_timlida');
+    $teamlead_email = $form_state->getValue('email_timlida');
+    $employee_email_from_teamlead = $form_state->getValue('email_sotrudnika');
+    $employee_entity = $form_state->getValue('team_entity_sotrudnik');
 
-    $user_from_uid = user_load($filling_field_entity_sotrudnika);
-    $email_sotrudnika_from_field = $user_from_uid->getEmail();
+    $user_from_uid = user_load($employee_entity);
+    $employee_email_from_field = $user_from_uid->getEmail();
 
-    if (!$filling_field_id_timlida) {
+    if (!$teamlead_id) {
       $form_state->setValue('id_timlida', $user_id);
     }
 
-    if (!$filling_field_name_timlida) {
+    if (!$teamlead_name) {
       $form_state->setValue('name_timlida', $user_name);
     }
 
-    if (!$filling_field_email_timlida) {
+    if (!$teamlead_email) {
       $form_state->setValue('email_timlida', $user_email);
     }
 
-    if (!$filling_field_email_sotrudnika_from_teamlead) {
-      $form_state->setValue('email_sotrudnika', $email_sotrudnika_from_field);
+    if (!$employee_email_from_teamlead) {
+      $form_state->setValue('email_sotrudnika', $employee_email_from_field);
     }
   }
 
   if (in_array('employee', $user_roles)) {
-    $filling_field_id_sotrudnika = $form_state->getValue('id_sotrudnika');
-    $filling_field_name_sotrudnika = $form_state->getValue('name_sotrudnika');
-    $filling_field_email_sotrudnika = $form_state->getValue('email_sotrudnika');
+    $employee_id = $form_state->getValue('id_sotrudnika');
+    $employee_name = $form_state->getValue('name_sotrudnika');
+    $employee_email = $form_state->getValue('email_sotrudnika');
 
-    if (!$filling_field_id_sotrudnika) {
+    if (!$employee_id) {
       $form_state->setValue('id_sotrudnika', $user_id);
     }
 
-    if (!$filling_field_name_sotrudnika) {
+    if (!$employee_name) {
       $form_state->setValue('name_sotrudnika', $user_name);
     }
 
-    if (!$filling_field_email_sotrudnika) {
+    if (!$employee_email) {
       $form_state->setValue('email_sotrudnika', $user_email);
     }
 

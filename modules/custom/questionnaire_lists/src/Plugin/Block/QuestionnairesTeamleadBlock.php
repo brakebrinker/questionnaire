@@ -22,13 +22,20 @@ class QuestionnairesTeamleadBlock extends BlockBase
 {
     public function getListForTeamlead() {
         $current_user_id = \Drupal::currentUser()->id();
-        $webformSubmissionsList = [];
 
         $sids_current_user = $this->issetAllQuestionnairesIDForUser($current_user_id);
 
         $webformSubmissions = \Drupal::service('entity.manager')->getStorage('webform_submission')->loadMultiple($sids_current_user);
 
-        foreach ($webformSubmissions as $webformSubmission) {
+        return $this->createListItemFromWebformSubmission($webformSubmissions);
+
+    }
+
+    // creating a list of submisiions for teamlead.
+    private function createListItemFromWebformSubmission($submissions){
+        $webformSubmissionsList = [];
+
+        foreach ($submissions as $webformSubmission) {
 
             $innerDataWebformSubmission = $webformSubmission->getData();
 
@@ -57,7 +64,7 @@ class QuestionnairesTeamleadBlock extends BlockBase
     }
 
     // db query get list questionnaire for current teamlead
-    private static function issetAllQuestionnairesIDForUser($user_id) {
+    private function issetAllQuestionnairesIDForUser($user_id) {
 
         $submission_query = \Drupal::database()->select('webform_submission', 'ws');
         $submission_query->fields('ws', ['sid']);

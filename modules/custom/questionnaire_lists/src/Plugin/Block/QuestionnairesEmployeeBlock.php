@@ -21,41 +21,15 @@ class QuestionnairesEmployeeBlock extends BlockBase {
 
     public function getListForEmployee() {
         $current_user_id = \Drupal::currentUser()->id();
-        $webformSubmissionsList = [];
 
         $sids_current_user = $this->getAllQuestionnairesIDForUser($current_user_id);
 
         $webformSubmissions = \Drupal::service('entity.manager')->getStorage('webform_submission')->loadMultiple($sids_current_user);
 
-        foreach ($webformSubmissions as $webformSubmission) {
-
-            $innerDataWebformSubmission = $webformSubmission->getData();
-
-                $webformSubmissionsList[] = array(
-                    'sid' => $webformSubmission->id(),
-                    'label' => $webformSubmission->label(),
-                    'serial' => $webformSubmission->serial(),
-                    'uuid' => $webformSubmission->uuid(),
-                    'is_draft' => $webformSubmission->isDraft() ? true : false,
-                    'submitted_by_id' => $webformSubmission->getOwnerId(),
-                    'created' => $webformSubmission->getCreatedTime(),
-                    'changed' => $webformSubmission->getChangedTime(),
-                    'sticky' => $webformSubmission->isSticky() ? true : false,
-                    'locked' => $webformSubmission->isLocked() ? true : false,
-                    'id_employee' => $innerDataWebformSubmission['id_sotrudnika'],
-                    'id_teamlead' => $innerDataWebformSubmission['id_timlida'],
-                    'name_teamlead' => $innerDataWebformSubmission['name_timlida'],
-                    'token' => $webformSubmission->getToken(),
-                    'update_url' => $webformSubmission->getTokenUrl()->toString(),
-                    'view_url' => str_replace('form', 'webform', $webformSubmission->getSourceUrl()->toString())
-                );
-
-        }
-
-        return $webformSubmissionsList;
+        return $this->createListItemFromWebformSubmission($webformSubmissions);
     }
 
-    // get name timlida by id
+    // get teamleads name by id
     public function getTimlId($emloyee_id) {
         $ids = \Drupal::entityQuery('user')
             ->condition('status', 1)
@@ -77,8 +51,40 @@ class QuestionnairesEmployeeBlock extends BlockBase {
         return false;
     }
 
+    // creating a list of submisiions for employee.
+    private function createListItemFromWebformSubmission($submissions) {
+        $webformSubmissionsList = [];
+
+        foreach ($submissions as $webformSubmission) {
+
+            $innerDataWebformSubmission = $webformSubmission->getData();
+
+            $webformSubmissionsList[] = array(
+                'sid' => $webformSubmission->id(),
+                'label' => $webformSubmission->label(),
+                'serial' => $webformSubmission->serial(),
+                'uuid' => $webformSubmission->uuid(),
+                'is_draft' => $webformSubmission->isDraft() ? true : false,
+                'submitted_by_id' => $webformSubmission->getOwnerId(),
+                'created' => $webformSubmission->getCreatedTime(),
+                'changed' => $webformSubmission->getChangedTime(),
+                'sticky' => $webformSubmission->isSticky() ? true : false,
+                'locked' => $webformSubmission->isLocked() ? true : false,
+                'id_employee' => $innerDataWebformSubmission['id_sotrudnika'],
+                'id_teamlead' => $innerDataWebformSubmission['id_timlida'],
+                'name_teamlead' => $innerDataWebformSubmission['name_timlida'],
+                'token' => $webformSubmission->getToken(),
+                'update_url' => $webformSubmission->getTokenUrl()->toString(),
+                'view_url' => str_replace('form', 'webform', $webformSubmission->getSourceUrl()->toString())
+            );
+
+        }
+
+        return $webformSubmissionsList;
+    }
+
     // db query get list questionnaire for current employee
-    private static function getAllQuestionnairesIDForUser($user_id) {
+    private function getAllQuestionnairesIDForUser($user_id) {
         $all_submissions = [];
 
         $submission_query = \Drupal::database()->select('webform_submission', 'ws');
