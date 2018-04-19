@@ -1,2 +1,4 @@
-.idea/
-sites/default/files/
+*
+.*
+!.gitignore
+!modules/*
