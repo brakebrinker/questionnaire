@@ -1,0 +1,6 @@
+name: Questionnaire Forms
+description: 'Questionnaire Forms - Render forms depending on the user`s role.'
+type: module
+core: 8.x
+version: 1.0
+package: Examples

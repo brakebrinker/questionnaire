@@ -1,0 +1,10 @@
+{#{% if submission is not empty %}#}
+{{ dump(title) }}
+<h1>{{ title }}</h1>
+
+{{ form_start(webform) }}
+                    {{ form_widget(webform) }}
+
+<button type="submit" class="btn btn-success">Login <span class="fa fa-lock"></span></button>
+{{ form_end(webform) }}
+{# {% endif %} #}
