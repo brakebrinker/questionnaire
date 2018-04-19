@@ -1,4 +1,5 @@
 *
 .*
 !.gitignore
-!modules/*
+modules/*
+!modules/custom*
