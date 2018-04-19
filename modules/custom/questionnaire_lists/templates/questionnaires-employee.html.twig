@@ -1,0 +1,56 @@
+{% if teamlead.id %}
+    <span>Ваш тимлид: </span>
+    <a href="{{ path('entity.user.canonical', {'user': teamlead.id}) }}" rel="nofollow">{{ teamlead.getDisplayName() }}</a>
+{% endif %}
+{#{% if submission is not empty %}#}
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Дата создания</th>
+            <th>Дата изменения</th>
+            <th>Имя тимлида</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>
+                    {{ submission['sid'] }}
+                </td>
+                <td>
+                    {% if submission.locked %}
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ submission.view_url }}/submissions/{{ submission.sid }}"><i class="fa fa-file-o" aria-hidden="true"></i></a>
+                </td>
+                <td>
+                    {% if submission.locked %}
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    {% else %}
+                        <a href="{{ submission.update_url }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ submission.created|date("d.m.Y H:i") }}
+                </td>
+                <td>
+                    {{ submission.changed|date("d.m.Y H:i") }}
+                </td>
+                <td>
+                    {{ submission.name_teamlead }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{# {% endif %} #}
