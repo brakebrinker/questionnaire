@@ -2,4 +2,4 @@
 .*
 !.gitignore
 modules/*
-!modules/custom*
+!modules/custom/

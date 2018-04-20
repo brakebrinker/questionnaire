@@ -1,0 +1,13 @@
+<?php
+
+function questionnaire_forms_theme($existing, $type, $theme, $path) {
+    return [
+        'questionnaires-form-employee-display' => [
+            'variables' => [
+                'webform' => NULL,
+                'webformEntity' => NULL,
+            ],
+            'template' => 'questionnaires-form-employee',
+        ],
+    ];
+}
